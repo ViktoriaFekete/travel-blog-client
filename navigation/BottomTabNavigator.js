@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import TimeLine from '../screens/TimeLine';
 import LinksScreen from '../screens/LinksScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
@@ -27,7 +27,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={TimeLine}
         options={{
           title: 'Hlavná stránka',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,

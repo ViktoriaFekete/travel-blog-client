@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-export default function HomeScreen() {
+export default function TimeLine() {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -27,7 +27,7 @@ export default function HomeScreen() {
   );
 }
 
-HomeScreen.navigationOptions = {
+TimeLine.navigationOptions = {
   header: null,
 };
 
