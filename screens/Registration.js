@@ -7,20 +7,23 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default function MainFrame(props) {
     const [name, setName] = React.useState('');
+    const [errorName, setErrorName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [errorNotAllDataProvided, setErrorNotAllDataProvided] = React.useState('');
 
     async function sendRegistrationForm() {
-        console.log(name)
-        console.log(email)
-        console.log(password)
+        // verify if any data provided
+        if (name == '' || email == '' || password == '') {
+            console.log('WARN: Some info missing');
+            setErrorNotAllDataProvided('Prosím vypľň všetky polia')
+            return;
+        }
 
-        // console.log('Before fetch 1')
-        // let resp = await fetch('http://10.0.2.2:8080/articles/tile/?id=5')
-        // console.log('After fetch 1')
-        // let respJson = await resp.json()
-        // console.log(respJson)
-
+        // empty the error since data are provided
+        setErrorNotAllDataProvided('')
+        
+        // POST new user
         console.log('Before POST')
         let resp = await fetch('http://10.0.2.2:8080/bloggers', {
             method: 'POST',
@@ -37,22 +40,16 @@ export default function MainFrame(props) {
         });
         console.log('After POST')
         console.log(resp.status)
+        
+        // if 400 is returned - username already exists
+        if (resp.status == 400) {
+            setErrorName('Používateľské meno už existuje')
+        }
+    }
 
-        // console.log('Before fetch 2')
-        // resp = await fetch('http://10.0.2.2:8080/articles', {
-        //   method: 'POST',
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json',
-        //     'token': 'generated_token'
-        //   },
-        //   body: JSON.stringify({
-        //     blogger_id: '5',
-        //     title: 'aaaaaaaaaaaaDruhy clanok s frontu',
-        //     article_text: 'CEZ EMULATOR?!?! Ty si kral...'
-        //   })
-        // })
-        // console.log('After fetch 2')
+    function setNameAttributes(name) {
+        setName(name);
+        setErrorName('')
     }
 
     return (
@@ -62,7 +59,7 @@ export default function MainFrame(props) {
                 <Input
                     inputStyle={styles.input}
                     placeholder=' Meno'
-                    onChangeText={setName}
+                    onChangeText={setNameAttributes}
                     leftIcon={
                         <Icon
                             name='user'
@@ -70,6 +67,7 @@ export default function MainFrame(props) {
                             color='black'
                         />
                     }
+                    errorMessage={errorName}
                 />
                 <Input
                     inputStyle={styles.input}
@@ -97,7 +95,16 @@ export default function MainFrame(props) {
                     }
                 />
             </View>
-            <Button title="Registruj" onPress={sendRegistrationForm}/>
+            <Text style={{color: 'red'}}>
+                {errorNotAllDataProvided}
+            </Text>
+            <Button 
+                title='Registruj' 
+                type='solid' 
+                containerStyle={styles.buttonContainer} 
+                buttonStyle={styles.button}
+                onPress={sendRegistrationForm}
+            />
         </View>
     )
 }
@@ -105,13 +112,21 @@ export default function MainFrame(props) {
 const styles = StyleSheet.create({
     container: {
         padding: 30,
-        paddingTop: 140,
+        paddingTop: 110,
         paddingBottom: 50,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between'
     },
     input: {
-        
+        marginLeft: 7
+    },
+    buttonContainer: {
+        padding: 5,
+        paddingBottom: 20,
+        height: 90 
+    },
+    button:{
+        height: 70,
     }
 });
