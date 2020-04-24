@@ -6,6 +6,34 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function CreateNewArticleScreen() {
+
+  const [title, setTitle] = React.useState('');
+  const [text, setText] = React.useState('');
+
+  async function sendArticleForm() {
+      // console.log(title)
+      // console.log(text)
+
+      console.log('Before POST')
+      let resp = await fetch('http://10.0.2.2:8080/articles', {
+          method: 'POST',
+          headers: {
+             Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'token': 'generated_token'
+          },
+          body: JSON.stringify({
+            blogger_id: '4',
+            title: title,
+            article_text: text,
+          })
+      })
+      console.log('After POST')
+      console.log(resp.status)
+
+
+  }
+
   return (
     <ScrollView>
       <TouchableOpacity>
@@ -29,13 +57,16 @@ export default function CreateNewArticleScreen() {
         />
         <View style={styles.container}>
             <Input inputStyle={styles.articleTitle}
-                name='article_title' placeholder='Názov článku'
+                name='article_title' 
+                placeholder='Názov článku'
+                onChangeText={setTitle}
             />
             <TextInput style={styles.articleText}
-                name='article_text' placeholder='Sem napíš Tvoj príbeh :)'
+                name='article_text' 
+                placeholder='Sem napíš Tvoj príbeh :)'
                 multiline={true}
                 numberOfLines={1}
-                
+                onChangeText={setText}
                 // onChangeText={(text) => this.setState({text})}
                 // value={this.state.text}
             />
@@ -51,7 +82,7 @@ export default function CreateNewArticleScreen() {
               type='outline' 
               containerStyle={styles.buttons} buttonStyle={styles.btn}
             />
-            <Button title='Ulož' type='solid' containerStyle={styles.saveButton}/>
+            <Button title='Ulož' type='solid' onPress={sendArticleForm} containerStyle={styles.saveButton}/>
       </View>
     </ScrollView>
   );
