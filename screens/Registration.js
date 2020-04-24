@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     input: {
-        
+        marginLeft: 7
     },
     buttonContainer: {
         padding: 5,
