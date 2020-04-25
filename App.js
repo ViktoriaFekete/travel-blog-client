@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Registration from './screens/Registration';
+import Login from './screens/Login';
 
 export default class App extends React.Component {
   render() {
     return (
-      <Registration/>
+      <Login/>
     );
   }
 }
