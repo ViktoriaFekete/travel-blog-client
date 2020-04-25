@@ -6,7 +6,7 @@ import ArticleSreen from './screens/ArticleScreen';
 export default class App extends React.Component {
   render() {
     return (
-      <ArticleSreen/>
+      <CreateNewArticleScreen/>
     );
   }
 }
