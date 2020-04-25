@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
-export default function MainFrame(props) {
+export default function Registration(props) {
     const [name, setName] = React.useState('');
     const [errorName, setErrorName] = React.useState('');
     const [email, setEmail] = React.useState('');
