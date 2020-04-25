@@ -43,29 +43,32 @@ export default function CreateProfileScreen() {
             icon={
               <Icon
                 name="picture-o"
-                size={15}
+                size={20}
                 color="#0483c7"
               />
             }
             title='  Pridaj fotku' 
-            type='outline' 
+            type='clear' 
             containerStyle={styles.coverBtnContainer} buttonStyle={styles.coverButton}
+            onPress={() => console.log("Add cover photo from gallery!")}
         />
-          <TextInput style={styles.articleTitle}
-              name='username'
-              placeholder="Blogger name"
-              multiline={false}
-              onChangeText={setName}
-          />
-        <TouchableOpacity onPress={() => console.log("Add profile photo from gallery!")}>
-            <Avatar avatarStyle={styles.profilePhoto}
-                rounded
-                showEditButton
-                size="xlarge"        
-                source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=21&type=profile',}}
+        </View>
+        <View style={{ alignItems: 'center' }}>
+            <TextInput style={styles.articleTitle}
+                name='username'
+                placeholder="Blogger name"
+                multiline={false}
+                onChangeText={setName}
             />
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity onPress={() => console.log("Add profile photo from gallery!")}>
+                <Avatar avatarStyle={styles.profilePhoto}
+                    rounded
+                    showEditButton
+                    size="xlarge"        
+                    source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=21&type=profile',}}
+                />
+            </TouchableOpacity>
+        </View>
     <View style={styles.container}>
           <TextInput style={styles.articleText}
               name='aboutMe' 
@@ -91,9 +94,8 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   container: {
-    paddingTop: 300,
+    paddingTop: 30,
     padding: 20,
-    
   },
   contentContainer: {
     paddingTop: 100,
@@ -124,31 +126,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     color: 'black',
-    padding: 30,
-    paddingTop: 100,
-    
+    paddingTop: 30,
+    paddingBottom: 30,
   },
   saveButton:{
     paddingTop: 80,
     paddingLeft:160,
   },
   coverBtnContainer:{
-    paddingTop: 30,
-    backgroundColor: 'blue'
+    
   },
   coverButton:{
-    height: 40,
-    width: 150,
-    borderWidth: 2, 
-    backgroundColor: 'red',
+    height: 180,
+    width: '90%',
   },
   cover:{
-    flex:1, 
-    alignItems: 'center',
+    flex: 1,
+    // alignItems: 'center',
     backgroundColor: '#b8b8b8',
     height: 180,
     width: 480,
-    backgroundColor: 'green',
   }, 
   date:{
       paddingTop: 10,
