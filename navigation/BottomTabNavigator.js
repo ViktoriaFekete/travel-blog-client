@@ -3,8 +3,9 @@ import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import TimeLine from '../screens/TimeLine';
-import LinksScreen from '../screens/LinksScreen';
+import Settings from '../screens/Settings';
 import ProfileScreen from '../screens/ProfileScreen';
+import WelcomePage from '../screens/WelcomePage';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -14,12 +15,12 @@ export default function BottomTabNavigator({ navigation, route }) {
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
-
+  
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
         name="Links"
-        component={LinksScreen}
+        component={Settings}
         options={{
           title: 'Nastavenia',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-settings" />,

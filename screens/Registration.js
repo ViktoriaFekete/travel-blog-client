@@ -12,6 +12,10 @@ export default function Registration(props) {
     const [password, setPassword] = React.useState('');
     const [errorNotAllDataProvided, setErrorNotAllDataProvided] = React.useState('');
 
+    navigationOptions = {
+        title: 'Registrácia'
+    };
+
     async function sendRegistrationForm() {
         // verify if any data provided
         if (name == '' || email == '' || password == '') {

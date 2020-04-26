@@ -49,7 +49,7 @@ render() {
 
 const { articles } = this.state;
 
-console.log("2. Articles>>  ", this.state.articles);
+// console.log("2. Articles>>  ", this.state.articles);
 return (
   
     <FlatList

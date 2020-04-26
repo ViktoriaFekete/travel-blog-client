@@ -9,9 +9,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './BottomTabNavigator';
 import useLinking from './useLinking';
 
+import Login from '../screens/Login';
+
+
 const Stack = createStackNavigator();
 
 export default function MainFrame(props) {
+  
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -48,6 +52,7 @@ export default function MainFrame(props) {
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} />
+            <Stack.Screen name="Login" component={Login}/>
           </Stack.Navigator>
         </NavigationContainer>
       </View>
