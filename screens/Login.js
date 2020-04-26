@@ -56,7 +56,7 @@ export default class Login extends React.Component {
         // POST new user
         console.log('Before Login POST')
         try {
-            let resp = await fetch('http://192.168.1.107:8080/sessions', {
+            let resp = await fetch('http://10.0.2.2:8080/sessions', {
                 mode: "no-cors",   
                 method: 'POST', 
                 headers: {
@@ -81,7 +81,7 @@ export default class Login extends React.Component {
                 console.log("WARN: " + respBody)
                 this.updateErrorNotAllDataProvided('Zlé meno alebo heslo.');
             }
-            else {
+            else if (resp.status == 201) {
                 // Login successfull             
                 // store 'must have' data to global variables
                 const { navigate } = this.props.navigation
@@ -90,6 +90,9 @@ export default class Login extends React.Component {
                 global.bloggerId = respBody;
                 global.token = resp.headers.get('token')
                 navigate('Home')
+            }
+            else {
+                console.log('WARN: login did not catch any if else statemant - check it out: ', respBody)
             }
         }
         catch (error) {
