@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "blog-react-client",
+    "name": "travellblog",
     "slug": "blog-react-client",
     "platforms": [
       "ios",
@@ -26,6 +26,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.apk.travellblog",
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",

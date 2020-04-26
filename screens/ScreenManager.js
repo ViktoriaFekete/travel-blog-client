@@ -7,6 +7,7 @@ import WelcomePage from './WelcomePage';
 import Login from './Login';
 import Registration from './Registration';
 import MainFrame from '../navigation/MainFrame';
+import CreateProfileScreen from './CreateProfileScreen'
 
 const WelcomeStack = createStackNavigator({
     WelcomePage: { screen: WelcomePage },
@@ -17,7 +18,8 @@ const WelcomeStack = createStackNavigator({
 const Screens = createSwitchNavigator({
     WelcomePage: WelcomePage,
     WelcomeStack: WelcomeStack,
-    Home: { screen: MainFrame }
+    Home: { screen: MainFrame },
+    CreateProfile: {screen: CreateProfileScreen }
 })
 
 export default createAppContainer(Screens);

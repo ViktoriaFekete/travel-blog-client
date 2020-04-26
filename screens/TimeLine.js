@@ -9,8 +9,16 @@ import { useNavigation } from '@react-navigation/native';
 // const navigation = useNavigation();
 
 function getId(item){
-  console.log(item)
-  return item.id;
+  // console.log(item)
+
+  if (item.id != null) {
+    // console.log('returning: ', item.id)
+    return item.id;
+  }
+  else {
+    // console.log('returning: ', item.article_id)
+    return item.article_id;
+  }
 }
 
 
@@ -57,7 +65,7 @@ async searchByTags(){
 async componentDidMount() {
   try {
       // console.log("url ", this.state.parameters)
-      let response = await fetch('http://10.0.2.2:8080/articles/tile/?limit=10'+this.state.parameters);
+      let response = await fetch('http://192.168.1.107:8080/articles/tile/?limit=10'+this.state.parameters);
       let responseJson = await response.json();
 
       if (responseJson.content)
@@ -101,7 +109,7 @@ renderItem = ({ item }) => (
   <TouchableOpacity onPress={ () => this.openArticle(getId(item)) }>  
     <Card>
       <Image
-        source={{ uri: 'http://10.0.2.2:8080/articles/'+getId(item)+'/photos/0' }}
+        source={{ uri: 'http://192.168.1.107:8080/articles/'+getId(item)+'/photos/0' }}
         style={{ width: '100%', height: 180 }}
       /> 
       <View style={{ flex: 1, flexDirection: 'row'}}>

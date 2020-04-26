@@ -24,7 +24,7 @@ export default class ArticleScreen extends React.Component{
 
   async componentDidMount() {
     try {
-        let response = await fetch('http://10.0.2.2:8080/articles/full/' + articleId);
+        let response = await fetch('http://192.168.1.107:8080/articles/full/' + articleId);
         let responseJson = await response.json();
         await this.setState({articleAuthor: responseJson.blogger_id, articleTitle: responseJson.title, articleText: responseJson.article_text, published: responseJson.published });
 
@@ -56,13 +56,13 @@ export default class ArticleScreen extends React.Component{
         <View style={{flex:1, alignItems: 'center'}}>
           {/* //TODO Add image picker */}
             <Image
-                source={{ uri: 'http://10.0.2.2:8080/articles/' + articleId + '/photos/0' }}
+                source={{ uri: 'http://192.168.1.107:8080/articles/' + articleId + '/photos/0' }}
                 style={{ width: 480, height: 130 }}
             />       
             <Avatar containerStyle={{ position: 'absolute', top: 90, borderWidth: 3, borderColor: 'white'}} avatarStyle={styles.profilePhoto}
                 rounded
                 size="large"
-                source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + articleAuthor + '&type=profile',}}
+                source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + articleAuthor + '&type=profile',}}
             />
         </View>
         <View style={styles.container}>
@@ -73,7 +73,7 @@ export default class ArticleScreen extends React.Component{
         {/* //TODO Do gallery https://github.com/xiaolin/react-image-gallery  */}
         <View style={styles.gallery}>
             <Image 
-                source={{ uri: 'http://10.0.2.2:8080/articles/' + articleId + '/photos/0' }}
+                source={{ uri: 'http://192.168.1.107:8080/articles/' + articleId + '/photos/0' }}
                 style={{ width: 200, height: 150 }}
             />
         </View>

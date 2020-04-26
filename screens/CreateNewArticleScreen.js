@@ -18,7 +18,7 @@ export default function CreateNewArticleScreen() {
       let resp = {}
       console.log('Before POST')
       try {
-          resp = await fetch('http://10.0.2.2:8080/articles', {
+          resp = await fetch('http://192.168.1.107:8080/articles', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
