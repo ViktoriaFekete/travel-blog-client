@@ -5,6 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 export default class Login extends React.Component {
+    static navigationOptions = {
+        title: 'Prihlásenie'
+    };
+
     constructor() {
         super()
         
@@ -51,7 +55,7 @@ export default class Login extends React.Component {
         
         // POST new user
         console.log('Before Login POST')
-        let resp = await fetch('http://10.0.2.2:8080/sessions', {
+        let resp = await fetch('http://192.168.1.107:8080/sessions', {
             mode: "no-cors",   
             method: 'POST', 
             headers: {
@@ -79,9 +83,12 @@ export default class Login extends React.Component {
         else {
             // Login successfull             
             // store 'must have' data to global variables
+            const { navigate } = this.props.navigation
+
             console.log('Login successfull')
             global.bloggerId = respBody;
             global.token = resp.headers.get('token')
+            navigate('MainFrame')
         }
     }
 

@@ -41,6 +41,7 @@ export default function MainFrame(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
+    console.log("Logged BloggerID: " + global.bloggerId + "  Auth token: " + global.token)
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
