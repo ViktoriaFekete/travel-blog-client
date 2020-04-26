@@ -9,7 +9,7 @@ import Tags from "react-native-tags";
 import { Buffer } from "buffer";
 import * as ImagePicker from 'expo-image-picker';
 
-export default function CreateProfileScreen() {
+export default function CreateProfileScreen({ navigation }) {
 
   const [name, setName] = React.useState('');
   const [aboutMe, setAboutMe] = React.useState('');
@@ -85,7 +85,7 @@ export default function CreateProfileScreen() {
     // console.log(resp.status)
   }
 
-  async function updateProfile() {
+  async function updateProfile(navigation) {
       console.log(name)
       console.log(aboutMe)
 
@@ -115,6 +115,8 @@ export default function CreateProfileScreen() {
       if (resp.status == 200) {
           updateImage('http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile', profilePhoto.base64)
           updateImage('http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover', coverPhoto.base64)
+
+          navigation.navigate('Profile')
       }
   }
 
@@ -168,7 +170,12 @@ export default function CreateProfileScreen() {
                 // onChangeText={(text) => this.setState({text})}
                 // value={this.state.text}
           />
-          <Button title='Ulož' type='solid' onPress={updateProfile} containerStyle={styles.saveButton}/>
+          <Button 
+              title='Ulož' 
+              type='solid' 
+              onPress={ () => updateProfile(navigation) } 
+              containerStyle={styles.saveButton}
+          />
       </View>
     </ScrollView>
   );

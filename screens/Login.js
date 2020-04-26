@@ -94,7 +94,7 @@ export default class Login extends React.Component {
         }
         catch (error) {
             console.log("ERROR: fetch ended up in catch error state in Login")
-            console.error(error);
+            console.log(error);
         }
     }
 

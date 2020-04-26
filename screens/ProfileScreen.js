@@ -25,10 +25,10 @@ class ProfileScreen extends React.Component {
     try {
         let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
         let responseJson = await response.json();
-        this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
+        await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
 
-        // console.log(responseJson.title);
-        // console.log(responseJson);
+        // console.log(responseJson.username);
+        // console.log(responseJson.aboutMe);
         return responseJson;
     } catch (error) {
         console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
@@ -44,6 +44,10 @@ class ProfileScreen extends React.Component {
     // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
 
     const { name, aboutMe } = this.state;
+
+    if (isFocused)
+      this.componentDidMount()
+    
     console.log('BloggerId in Profile: ', global.bloggerId)
     if (global.bloggerId == null) {
         return (
