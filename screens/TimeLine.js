@@ -1,21 +1,24 @@
 import * as React from 'react';
 import { Platform, StyleSheet, Text, View, FlatList } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Image, Button, ListItem } from 'react-native-elements'
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import { Icon, Input}  from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native';
 
+// const navigation = useNavigation();
 
 function getId(item){
+  console.log(item)
   return item.id;
 }
 
 
 export default class TimeLine extends React.Component{
 
-  constructor(){
+  constructor(props){
 
-    super()
+    super(props)
 
     this.state = {
     articles: [],
@@ -86,21 +89,31 @@ async componentDidMount() {
 
 keyExtractor = (item, index) => index.toString()
 
+openArticle(articleId) {
+    console.log('Trying to open article with articleID: ', articleId);
+    
+    global.articleId = articleId;
+
+    this.props.navigation.navigate('Article')
+}
+
 renderItem = ({ item }) => (
-  <Card>
-  <Image
-    source={{ uri: 'http://10.0.2.2:8080/articles/'+getId(item)+'/photos/0' }}
-    style={{ width: '100%', height: 180 }}
-  /> 
-  <View style={{ flex: 1, flexDirection: 'row'}}>
-    {/* <Text>
-      {this.getBloggerName(item.bloggerId)}
-    </Text> */}
-    <Text style={styles.title}>
-      {item.title}  {item.bloggerId}  {item.id}
-    </Text>
-    </View>
-  </Card>
+  <TouchableOpacity onPress={ () => this.openArticle(getId(item)) }>  
+    <Card>
+      <Image
+        source={{ uri: 'http://10.0.2.2:8080/articles/'+getId(item)+'/photos/0' }}
+        style={{ width: '100%', height: 180 }}
+      /> 
+      <View style={{ flex: 1, flexDirection: 'row'}}>
+        {/* <Text>
+          {this.getBloggerName(item.bloggerId)}
+        </Text> */}
+        <Text style={styles.title}>
+          {item.title}  {item.bloggerId}  {item.id}
+        </Text>
+        </View>
+    </Card>
+  </TouchableOpacity>
   )
 
 render() {
