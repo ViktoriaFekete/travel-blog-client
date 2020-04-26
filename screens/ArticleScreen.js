@@ -78,9 +78,7 @@ export default class ArticleScreen extends React.Component{
             />
         </View>
         {/* //TODO Add comment section */}
-        <View style={styles.commentSection}>
-            <Text>Sem pridu este komenty</Text>
-        </View>
+        
     </ScrollView>
   );
 }

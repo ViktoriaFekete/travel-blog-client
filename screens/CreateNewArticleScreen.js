@@ -66,7 +66,7 @@ export default function CreateNewArticleScreen() {
         <Avatar containerStyle={{position: 'absolute', top: 90, borderWidth: 3, borderColor: 'white'}} avatarStyle={styles.profilePhoto}
             rounded
             size="large"
-            source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
+            source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
         />
       </View>
       <View style={styles.container}>

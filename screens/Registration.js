@@ -55,7 +55,7 @@ export default function Registration({ navigation }) {
             console.log('Before Login POST')
 
             // user registered, now log him in and get id and token
-            resp = await fetch('http://10.0.2.2:8080/sessions', {
+            resp = await fetch('http://192.168.1.107:8080/sessions', {
                 mode: "no-cors",   
                 method: 'POST', 
                 headers: {

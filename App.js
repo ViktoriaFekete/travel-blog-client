@@ -13,7 +13,7 @@ import TimeLine from './screens/TimeLine';
 export default class App extends React.Component {
   render() {
     return (
-      <CreateNewArticleScreen/>
+      <ScreenManager/>
     );
   }
 }
