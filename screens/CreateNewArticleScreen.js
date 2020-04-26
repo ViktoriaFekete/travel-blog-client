@@ -10,11 +10,17 @@ export default function CreateNewArticleScreen() {
 
   const [title, setTitle] = React.useState('');
   const [text, setText] = React.useState('');
-  const [tags, setTags] = React.useState('');
+  const [tags, setTags] = React.useState(['']);
+  const [tag, setTag] = React.useState('');
+
+  function updateTags() {
+    console.log(tags)
+    setTags([...tags, tag]);
+  }
 
   async function sendArticleForm() {
-        // console.log(title)
-        // console.log(tags)
+     
+      console.log("tagy tu ", tags)
       let resp = {}
       console.log('Before POST')
       try {
@@ -29,7 +35,7 @@ export default function CreateNewArticleScreen() {
                 blogger_id: '4',
                 title: title,
                 article_text: text,
-            //    tags: tags,
+                selected_tags: tags,
               })
           })
       }
@@ -38,6 +44,7 @@ export default function CreateNewArticleScreen() {
           console.error(error);
       }
       console.log('After POST')
+      console.log("tag ", tags)
       console.log(resp.status)
   }
 
@@ -59,54 +66,61 @@ export default function CreateNewArticleScreen() {
         <Avatar containerStyle={{position: 'absolute', top: 90, borderWidth: 3, borderColor: 'white'}} avatarStyle={styles.profilePhoto}
             rounded
             size="large"
-            source={{ uri:'https://www.pedroaraya.cl/wp-content/uploads/2016/06/photo-1438761681033-6461ffad8d80.jpg',}}
+            source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
         />
       </View>
-        <View style={styles.container}>
+      <View style={styles.container}>
           <Input inputStyle={styles.articleTitle}
               name='article_title' 
               placeholder='Názov článku'
               onChangeText={setTitle}
           />
-          <Tags style={{ paddingTop: 10}}
-              initialTags={["#kde", "#si", "#bol?"]}
-              maxNumberOfTags={5}
-            //  onChangeTags={tags => console.log(tags)}
-              onChangeText={setTags}
-              onTagPress={(index, tagLabel, event, deleted) =>
-                console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
-              }
-              containerStyle={{  justifyContent: "center" }}
-              inputStyle={{ borderColor: "#b8b8b8" }}
-              renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
-                <TouchableOpacity key={`${tag}-${index}`} onPress={onPress}>
-                  <Text style={styles.tags}>{tag}</Text>
-                </TouchableOpacity>
-              )}
-            />          
-          <TextInput style={styles.articleText}
-              name='article_text' 
-              placeholder='Sem napíš Tvoj príbeh :)'
-              multiline={true}
-              numberOfLines={1}
-              onChangeText={setText}
-                // onChangeText={(text) => this.setState({text})}
-                // value={this.state.text}
-          />
+          <View >
+            <Input 
+                name='tag' 
+                placeholder='#Kde si bol?'
+                onChangeText={setTag}
+            />  
           <Button
-              icon={
-              <Icon
-                name="picture-o"
-                size={15}
-                color="#0483c7"
-              />
+              icon ={
+                <Icon
+                raised
+                name='tags'
+                type='font-awesome'
+                color='#0483c7'
+                size={20}
+               />  
               }
-              title='  Pridaj fotku' 
-              type='outline' 
-              //onPress={} https://medium.com/enappd/how-to-pick-images-from-camera-gallery-in-react-native-app-faf58f26ee37
-              containerStyle={styles.buttons} buttonStyle={styles.btn}
-          />
-          <Button title='Ulož' type='solid' onPress={sendArticleForm} containerStyle={styles.saveButton}/>
+              title=' Pridaj tag' 
+              type='clear' 
+              onPress={updateTags}/>
+          </View>
+          <View>
+            <TextInput style={styles.articleText}
+                name='article_text' 
+                placeholder='Sem napíš Tvoj príbeh :)'
+                multiline={true}
+                numberOfLines={1}
+                onChangeText={setText}
+                  // onChangeText={(text) => this.setState({text})}
+                  // value={this.state.text}
+            />
+            <Button
+                icon={
+                <Icon
+                  name="picture-o"
+                  size={15}
+                  color="#0483c7"
+                />
+                }
+                title='  Pridaj fotku' 
+                type='outline' 
+                //onPress={}
+                // https://medium.com/enappd/how-to-pick-images-from-camera-gallery-in-react-native-app-faf58f26ee37
+                containerStyle={styles.buttons} buttonStyle={styles.btn}
+            />
+            <Button title='Ulož' type='solid' onPress={sendArticleForm} containerStyle={styles.saveButton}/>
+            </View>
       </View>
     </ScrollView>
   );

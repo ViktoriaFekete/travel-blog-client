@@ -66,6 +66,7 @@ async componentDidMount() {
   try {
       // console.log("url ", this.state.parameters)
       let response = await fetch('http://192.168.1.107:8080/articles/tile/?limit=10'+this.state.parameters);
+
       let responseJson = await response.json();
 
       if (responseJson.content)
@@ -129,7 +130,7 @@ render() {
 const { articles, tagname } = this.state;
 
 return (
-  <View>
+  <View style={{ flex: 1}}>
       <View style={{ flexDirection: 'row',  top: 20, paddingBottom: 15}}>
       <Input containerStyle={{ paddingLeft: 20, flex: 1}}
           placeholder='Search by country'
@@ -155,7 +156,7 @@ return (
           onPress={this.orderArticles.bind(this)} />
       </View>
     </View>
-    <FlatList
+    <FlatList 
       keyExtractor={this.keyExtractor}
       data={articles}
       renderItem={this.renderItem}
