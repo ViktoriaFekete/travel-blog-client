@@ -38,7 +38,7 @@ export default class WelcomePage extends React.Component {
                   type='solid' 
                   containerStyle={styles.buttons} 
                   buttonStyle={styles.btn}
-                  onPress={ () => navigate('MainFrame') }
+                  onPress={ () => navigate('Home') }
               />
           </View>
       </View>

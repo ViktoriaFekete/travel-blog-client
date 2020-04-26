@@ -6,22 +6,47 @@ import { Button } from 'react-native-elements';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import { Icon}  from 'react-native-elements'
 
+import { useIsFocused } from '@react-navigation/native';
 
-export default class ProfileScreen extends React.Component {
+export default function(props) {
+  const isFocused = useIsFocused();
+
+  return <ProfileScreen {...props} isFocused={isFocused} />;
+}
+
+class ProfileScreen extends React.Component {
 
   state = {
         name: 'Blogger',
         aboutMe: 'Kto som',
   }
 
+  async componentDidUpdate() {
+    if (this.state.profileForBloggerID != global.bloggerId) {
+        try {
+          let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
+          let responseJson = await response.json();
+          await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe, profileForBloggerID: global.bloggerId });
+
+          // console.log(responseJson.username);
+          // console.log(responseJson.aboutMe);
+          
+          return responseJson;
+        } catch (error) {
+            console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
+            console.error(error);
+        }
+    }
+  }
+
   async componentDidMount() {
     try {
         let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
         let responseJson = await response.json();
-        this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
+        await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
 
-        // console.log(responseJson.title);
-        // console.log(responseJson);
+        // console.log(responseJson.username);
+        // console.log(responseJson.aboutMe);
         return responseJson;
     } catch (error) {
         console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
@@ -31,12 +56,35 @@ export default class ProfileScreen extends React.Component {
 
 
   render() {
+    // isFocused = useIsFocused();
+    const { isFocused } = this.props;
+    // console.log(isFocused)
+    // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
+
     const { name, aboutMe } = this.state;
 
+    // if (isFocused)
+    //   this.componentDidMount()
+    
+    console.log('BloggerId in Profile: ', global.bloggerId)
     if (global.bloggerId == null) {
         return (
-          <View>
-              <Text>Nie si prihlásený.</Text>
+          <View style={styles.notLoggedContainer}>
+              <Text style={{color:'red'}}>Nie si prihlásený.</Text>
+              <Button 
+                  title='Prihlás sa' 
+                  type='solid' 
+                  containerStyle={styles.buttons} 
+                  buttonStyle={styles.btn}
+                  onPress = { () => this.props.navigation.navigate('Login') }
+              />
+              <Button 
+                  title='Registruj sa' 
+                  type='solid' 
+                  containerStyle={styles.buttons} 
+                  buttonStyle={styles.btn}
+                  onPress = { () => this.props.navigation.navigate('Registration') }
+              />
           </View>
         )
     }
@@ -89,6 +137,15 @@ ProfileScreen.navigationOptions = {
 
 
 const styles = StyleSheet.create({
+  notLoggedContainer: {
+    padding: 30,
+    paddingTop: 200,
+    paddingBottom: 50,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+
   container: {
     paddingTop: 50,
     padding: 20,
