@@ -13,6 +13,7 @@ import Login from '../screens/Login';
 import Registration from '../screens/Registration';
 import CreateProfileScreen from '../screens/CreateProfileScreen';
 import ArticleScreen from '../screens/ArticleScreen';
+import CreateNewArticleScreen from '../screens/CreateNewArticleScreen';
 
 
 const Stack = createStackNavigator();
@@ -59,6 +60,7 @@ export default function MainFrame(props) {
             <Stack.Screen name="Registration" component={Registration}/>
             <Stack.Screen name="CreateProfile" component={CreateProfileScreen}/>
             <Stack.Screen name="Article" component={ArticleScreen}/>
+            <Stack.Screen name="CreateNewArticleScreen" component={CreateNewArticleScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </View>

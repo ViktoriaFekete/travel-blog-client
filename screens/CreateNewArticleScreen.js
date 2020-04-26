@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Tags from "react-native-tags";
 
-export default function CreateNewArticleScreen() {
+export default function CreateNewArticleScreen( { navigation } ) {
 
   const [title, setTitle] = React.useState('');
   const [text, setText] = React.useState('');

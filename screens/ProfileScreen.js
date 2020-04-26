@@ -122,7 +122,8 @@ class ProfileScreen extends React.Component {
                 type='ionicon'
                 color='#5BC0BE'
                 size={40}
-                onPress={() => console.log('Add new article...')} />            
+                onPress={() => this.props.navigation.navigate('CreateNewArticleScreen')
+              } />            
             </View>
         </ScrollView>
       );
