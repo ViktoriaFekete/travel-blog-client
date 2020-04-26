@@ -17,15 +17,16 @@ export default class TimeLine extends React.Component{
 }
 
 async componentDidMount() {
-try {
-    let response = await fetch('http://10.0.2.2:8080/articles/tile/?limit=25&&order=d');
-    let responseJson = await response.json();
-    this.setState({articles: responseJson.content });
+  try {
+      let response = await fetch('http://10.0.2.2:8080/articles/tile/?limit=25&&order=d');
+      let responseJson = await response.json();
+      this.setState({articles: responseJson.content });
 
-    return responseJson;
-} catch (error) {
-    console.error(error);
-}
+      return responseJson;
+  } catch (error) {
+      console.log("fetch ended up in error state in TimeLine")
+      console.error(error);
+  }
 }
 
 keyExtractor = (item, index) => index.toString()

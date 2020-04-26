@@ -16,7 +16,7 @@ export default class ProfileScreen extends React.Component {
 
   async componentDidMount() {
     try {
-        let response = await fetch('http://10.0.2.2:8080/bloggers/9');
+        let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
         let responseJson = await response.json();
         this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
 
@@ -24,53 +24,61 @@ export default class ProfileScreen extends React.Component {
         // console.log(responseJson);
         return responseJson;
     } catch (error) {
+        console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
         console.error(error);
     }
   }
 
 
   render() {
-    
     const { name, aboutMe } = this.state;
-    return (
 
-    <ScrollView>
-          <View style={{ alignItems: 'center'}}>
-            <Image
-                source={{ uri: 'http://10.0.2.2:8080/bloggers/photos?bloggerId=9&type=cover' }}
-                style={{ width: 480, height: 180 }}
-            /> 
-            <Text style={styles.name}>{name}</Text> 
-            {/* <Button
-              icon={
-              <Icon name="plus" size={15} color="#0483c7"/>
-              }
-              title='  Follow me' 
-              type='outline' 
-              containerStyle={styles.buttons} buttonStyle={styles.btn}
-          />     */}
-            <Avatar  avatarStyle={styles.profilePhoto}
-                rounded
-                size="xlarge"
-                source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=9&type=profile',}}
-            />
+    if (global.bloggerId == null) {
+        return (
+          <View>
+              <Text>Nie si prihlásený.</Text>
           </View>
-          <View >
-            <Text style={{paddingLeft:20, paddingTop: 20, fontSize: 24}}>About Me</Text>
-            <Text style={styles.aboutMe}>{aboutMe}</Text>
-          </View>
-          <View style={{ position: 'relative', left: 300}}>
-            <Icon
-              raised
-              name='md-add'
-              type='ionicon'
-              color='#5BC0BE'
-              size={40}
-              onPress={() => console.log('Add new article...')} />            
-          </View>
-
-    </ScrollView>
-  );
+        )
+    }
+    else {
+      return (
+        <ScrollView>
+            <View style={{ alignItems: 'center'}}>
+              <Image
+                  source={{ uri: 'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover' }}
+                  style={{ width: 480, height: 180 }}
+              /> 
+              <Text style={styles.name}>{name}</Text> 
+              {/* <Button
+                icon={
+                <Icon name="plus" size={15} color="#0483c7"/>
+                }
+                title='  Follow me' 
+                type='outline' 
+                containerStyle={styles.buttons} buttonStyle={styles.btn}
+            />     */}
+              <Avatar  avatarStyle={styles.profilePhoto}
+                  rounded
+                  size="xlarge"
+                  source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
+              />
+            </View>
+            <View >
+              <Text style={{paddingLeft:20, paddingTop: 20, fontSize: 24}}>About Me</Text>
+              <Text style={styles.aboutMe}>{aboutMe}</Text>
+            </View>
+            <View style={{ position: 'relative', left: 300}}>
+              <Icon
+                raised
+                name='md-add'
+                type='ionicon'
+                color='#5BC0BE'
+                size={40}
+                onPress={() => console.log('Add new article...')} />            
+            </View>
+        </ScrollView>
+      );
+    }
 }
 
 }

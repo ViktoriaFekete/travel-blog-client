@@ -25,25 +25,31 @@ export default function Registration(props) {
         
         // POST new user
         console.log('Before POST')
-        let resp = await fetch('http://10.0.2.2:8080/bloggers', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify ({
-                username: name,
-                about_me: ' ',
-                password: password,
-                email: email
-            })
-        });
-        console.log('After POST')
-        console.log(resp.status)
-        
-        // if 400 is returned - username already exists
-        if (resp.status == 400) {
-            setErrorName('Používateľské meno už existuje')
+        try {
+            let resp = await fetch('http://10.0.2.2:8080/bloggers', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify ({
+                    username: name,
+                    about_me: ' ',
+                    password: password,
+                    email: email
+                })
+            });
+            console.log('After POST')
+            console.log(resp.status)
+
+            // if 400 is returned - username already exists
+            if (resp.status == 400) {
+                setErrorName('Používateľské meno už existuje')
+            }
+        }
+        catch (error) {
+            console.log("ERROR: fetch ended up in catch error state in Registration")
+            console.error(error);
         }
     }
 

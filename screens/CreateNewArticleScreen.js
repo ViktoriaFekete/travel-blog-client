@@ -13,24 +13,30 @@ export default function CreateNewArticleScreen() {
   const [tags, setTags] = React.useState('');
 
   async function sendArticleForm() {
-      // console.log(title)
-     // console.log(tags)
-
+        // console.log(title)
+        // console.log(tags)
+      let resp = {}
       console.log('Before POST')
-      let resp = await fetch('http://10.0.2.2:8080/articles', {
-          method: 'POST',
-          headers: {
-             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'token': 'generated_token'
-          },
-          body: JSON.stringify({
-            blogger_id: '4',
-            title: title,
-            article_text: text,
-        //    tags: tags,
+      try {
+          resp = await fetch('http://10.0.2.2:8080/articles', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'token': 'generated_token'
+              },
+              body: JSON.stringify({
+                blogger_id: '4',
+                title: title,
+                article_text: text,
+            //    tags: tags,
+              })
           })
-      })
+      }
+      catch (error) {
+          console.log("ERROR: fetch ended up in catch error state in CreateNewArticleScreen")
+          console.error(error);
+      }
       console.log('After POST')
       console.log(resp.status)
   }

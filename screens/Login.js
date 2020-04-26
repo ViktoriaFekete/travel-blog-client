@@ -55,40 +55,46 @@ export default class Login extends React.Component {
         
         // POST new user
         console.log('Before Login POST')
-        let resp = await fetch('http://192.168.1.107:8080/sessions', {
-            mode: "no-cors",   
-            method: 'POST', 
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: name,
-                password: password,
+        try {
+            let resp = await fetch('http://192.168.1.107:8080/sessions', {
+                mode: "no-cors",   
+                method: 'POST', 
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: name,
+                    password: password,
+                })
             })
-        })
-        console.log('After Login POST')
-        
-        let respBody = await resp.text()
-        
-        // handle 4xx statuses
-        if (resp.status == 400) {
-            console.log("WARN: " + respBody)
-            this.updateErrorNotAllDataProvided(respBody);
-        }
-        else if (resp.status == 401) {
-            console.log("WARN: " + respBody)
-            this.updateErrorNotAllDataProvided('Zlé meno alebo heslo.');
-        }
-        else {
-            // Login successfull             
-            // store 'must have' data to global variables
-            const { navigate } = this.props.navigation
+            console.log('After Login POST')
 
-            console.log('Login successfull')
-            global.bloggerId = respBody;
-            global.token = resp.headers.get('token')
-            navigate('MainFrame')
+            let respBody = await resp.text()
+        
+            // handle 4xx statuses
+            if (resp.status == 400) {
+                console.log("WARN: " + respBody)
+                this.updateErrorNotAllDataProvided(respBody);
+            }
+            else if (resp.status == 401) {
+                console.log("WARN: " + respBody)
+                this.updateErrorNotAllDataProvided('Zlé meno alebo heslo.');
+            }
+            else {
+                // Login successfull             
+                // store 'must have' data to global variables
+                const { navigate } = this.props.navigation
+
+                console.log('Login successfull')
+                global.bloggerId = respBody;
+                global.token = resp.headers.get('token')
+                navigate('MainFrame')
+            }
+        }
+        catch (error) {
+            console.log("ERROR: fetch ended up in catch error state in Login")
+            console.error(error);
         }
     }
 

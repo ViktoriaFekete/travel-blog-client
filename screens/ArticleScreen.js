@@ -23,6 +23,7 @@ export default class ArticleScreen extends React.Component{
         // console.log(responseJson);
         return responseJson;
     } catch (error) {
+        console.log("ERROR: fetch ended up in catch error state in ArticleScreen")
         console.error(error);
     }
   }

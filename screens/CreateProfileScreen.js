@@ -8,7 +8,6 @@ import Tags from "react-native-tags";
 
 import { Buffer } from "buffer";
 import * as ImagePicker from 'expo-image-picker';
-// import RNFetchBlob from 'rn-fetch-blob'
 
 export default function CreateProfileScreen() {
 
@@ -65,41 +64,49 @@ export default function CreateProfileScreen() {
 
     let bytePhoto = Buffer.from(photoBase64, "base64");
 
-    let resp = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-            Accept: 'image/jpeg',
-          'Content-Type': 'image/jpeg',
-          'token': global.token
-        },
-        body: bytePhoto
-    })
+    try {
+        let resp = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                Accept: 'image/jpeg',
+              'Content-Type': 'image/jpeg',
+              'token': global.token
+            },
+            body: bytePhoto
+        })
+        console.log('After Photo PUT: ' + endpoint)
+    }
+    catch (error) {
+        console.log("ERROR: fetch ended up in catch error state in CreateProfileScreen-updateImage()")
+        console.error(error);
+    }
 
-    console.log('After Photo PUT: ' + endpoint)
     // console.log(resp.status)
   }
 
   async function updateProfile() {
-     console.log(name)
-     console.log(aboutMe)
-
-     // TODO: DELETE these mocked user data
-     global.bloggerId = 10
-     global.token = 'generated_token'
+      console.log(name)
+      console.log(aboutMe)
 
       console.log('Before BloggerName PUT')
-      let resp = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId, {
-          method: 'PUT',
-          headers: {
-             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'token': global.token
-          },
-          body: JSON.stringify({
-            username: name,
-            about_me: aboutMe,
+      try {
+          let resp = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId, {
+              method: 'PUT',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'token': global.token
+              },
+              body: JSON.stringify({
+                username: name,
+                about_me: aboutMe,
+              })
           })
-      })
+      }
+      catch (error) {
+          console.log("ERROR: fetch ended up in catch error state in CreateProfileScreen-updateProfile")
+          console.error(error);
+      }
       console.log('After BloggerName PUT')
       console.log(resp.status)
       if (resp.status == 200) {
