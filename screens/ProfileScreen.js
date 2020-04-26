@@ -17,8 +17,8 @@ export default function(props) {
 class ProfileScreen extends React.Component {
 
   state = {
-        name: 'Blogger',
-        aboutMe: 'Kto som',
+        name: '',
+        aboutMe: '',
   }
 
   async componentDidUpdate() {
