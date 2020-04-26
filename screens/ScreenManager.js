@@ -17,7 +17,7 @@ const WelcomeStack = createStackNavigator({
 const Screens = createSwitchNavigator({
     WelcomePage: WelcomePage,
     WelcomeStack: WelcomeStack,
-    MainFrame: { screen: MainFrame }
+    Home: { screen: MainFrame }
 })
 
 export default createAppContainer(Screens);

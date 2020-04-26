@@ -89,7 +89,7 @@ export default class Login extends React.Component {
                 console.log('Login successfull')
                 global.bloggerId = respBody;
                 global.token = resp.headers.get('token')
-                navigate('MainFrame')
+                navigate('Home')
             }
         }
         catch (error) {

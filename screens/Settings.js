@@ -1,9 +1,11 @@
 import * as React from 'react';
 
-import { View, StyleSheet, Button, ToastAndroid } from "react-native";
+import { View, StyleSheet, ToastAndroid } from "react-native";
+import { Button } from "react-native-elements";
 
 
-async function logout(navigation) {
+
+async function logout() {
     if (global.bloggerId == null) {
         ToastAndroid.showWithGravity(
             "Niesi prihlásený",
@@ -45,14 +47,21 @@ async function logout(navigation) {
 
 }   
 
-export default function LinksScreen({ navigation }) {
+export default function LinksScreen() {
     return (
         <View>
         <Button 
-            title='Pokračuj bez prihlásenia'
-            onPress={ () => logout(navigation)}
+            title='Odhlásenie'
+            containerStyle={styles.button}
+            onPress={ () => logout()}
         />
     </View>
     );
-  }
+}
+
+const styles = StyleSheet.create({
+    button: {
+        paddingTop: 1
+    }
+})
   

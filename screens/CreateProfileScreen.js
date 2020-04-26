@@ -62,10 +62,11 @@ export default function CreateProfileScreen() {
   async function updateImage(endpoint, photoBase64) {
     console.log('Before Photo PUT: ' + endpoint)
 
+    let resp;
     let bytePhoto = Buffer.from(photoBase64, "base64");
 
     try {
-        let resp = await fetch(endpoint, {
+        resp = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 Accept: 'image/jpeg',
@@ -88,9 +89,11 @@ export default function CreateProfileScreen() {
       console.log(name)
       console.log(aboutMe)
 
+      let resp;
+
       console.log('Before BloggerName PUT')
       try {
-          let resp = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId, {
+           resp = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId, {
               method: 'PUT',
               headers: {
                 Accept: 'application/json',

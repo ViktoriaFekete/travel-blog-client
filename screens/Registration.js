@@ -5,18 +5,18 @@ import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
-export default function Registration(props) {
+export default function Registration({ navigation }) {
     const [name, setName] = React.useState('');
     const [errorName, setErrorName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [errorNotAllDataProvided, setErrorNotAllDataProvided] = React.useState('');
 
-    navigationOptions = {
-        title: 'Registrácia'
-    };
+    // navigationOptions = {
+    //     title: 'Registrácia'
+    // };
 
-    async function sendRegistrationForm() {
+    async function sendRegistrationForm(navigation) {
         // verify if any data provided
         if (name == '' || email == '' || password == '') {
             console.log('WARN: Some info missing');
@@ -49,7 +49,33 @@ export default function Registration(props) {
             // if 400 is returned - username already exists
             if (resp.status == 400) {
                 setErrorName('Používateľské meno už existuje')
+                return;
             }
+
+            console.log('Before Login POST')
+
+            // user registered, now log him in and get id and token
+            resp = await fetch('http://192.168.1.107:8080/sessions', {
+                mode: "no-cors",   
+                method: 'POST', 
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: name,
+                    password: password,
+                })
+            })
+            console.log('After Login POST')
+            
+            let respBody = await resp.text()
+
+            global.bloggerId = respBody;
+            global.token = resp.headers.get('token')
+            
+            // registration was successfull 
+            navigation.navigate('CreateProfile')
         }
         catch (error) {
             console.log("ERROR: fetch ended up in catch error state in Registration")
@@ -113,7 +139,7 @@ export default function Registration(props) {
                 type='solid' 
                 containerStyle={styles.buttonContainer} 
                 buttonStyle={styles.button}
-                onPress={sendRegistrationForm}
+                onPress={() => sendRegistrationForm(navigation)}
             />
         </View>
     )
