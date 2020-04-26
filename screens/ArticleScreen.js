@@ -35,6 +35,7 @@ export default class ArticleScreen extends React.Component{
 
     <ScrollView>
         <View style={{flex:1, alignItems: 'center'}}>
+          //TODO Add image picker
             <Image
                 source={{ uri: 'http://10.0.2.2:8080/articles/28/photos/0' }}
                 style={{ width: 480, height: 130 }}
@@ -50,12 +51,14 @@ export default class ArticleScreen extends React.Component{
             <Text style={styles.date}>{published}</Text>
             <Text style={styles.articleText}>{articleText}</Text>
         </View>
+        //TODO Do gallery https://github.com/xiaolin/react-image-gallery 
         <View style={styles.gallery}>
             <Image 
                 source={{ uri: 'http://10.0.2.2:8080/articles/28/photos/0' }}
                 style={{ width: 200, height: 150 }}
             />
         </View>
+        //TODO Add comment section
         <View style={styles.commentSection}>
             <Text>Sem pridu este komenty</Text>
         </View>

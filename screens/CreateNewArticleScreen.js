@@ -33,9 +33,6 @@ export default function CreateNewArticleScreen() {
       })
       console.log('After POST')
       console.log(resp.status)
-      
-
-
   }
 
   return (
@@ -67,9 +64,6 @@ export default function CreateNewArticleScreen() {
           />
           <Tags style={{ paddingTop: 10}}
               initialTags={["#kde", "#si", "#bol?"]}
-              textInputProps={{
-                placeholder: "Zadaj tag"
-              }}
               maxNumberOfTags={5}
             //  onChangeTags={tags => console.log(tags)}
               onChangeText={setTags}
