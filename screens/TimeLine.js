@@ -32,13 +32,11 @@ orderArticles(){
     this.setState({ orderBy: 'd', parameters: '&order=d'});
   
   this.componentDidMount()
-
 }
 
 
 updateSearch = tagname => {
   this.setState({ tagname });
-  
 };
 
 
@@ -108,7 +106,6 @@ renderItem = ({ item }) => (
 render() {
 
 const { articles, tagname } = this.state;
-
 
 return (
   <View>
