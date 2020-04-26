@@ -6,52 +6,131 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Tags from "react-native-tags";
 
+import { Buffer } from "buffer";
+import * as ImagePicker from 'expo-image-picker';
+// import RNFetchBlob from 'rn-fetch-blob'
+
 export default function CreateProfileScreen() {
 
   const [name, setName] = React.useState('');
   const [aboutMe, setAboutMe] = React.useState('');
+  const [coverPhoto, setCoverPhoto] = React.useState({});
+  const [coverPhotoProvided, setCoverPhotoProvided] = React.useState(false);
+  const [profilePhoto, setProfilePhoto] = React.useState({});
+
+  async function pickProfilePhoto() {
+      try {
+          let result = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ImagePicker.MediaTypeOptions.All,
+              allowsEditing: false,
+              base64: true
+          });
+
+          if (result.cancelled) {
+              console.log('Photo NOT loaded')
+          }
+          else {
+              setProfilePhoto(result)
+              console.log('Photo loaded ' + coverPhoto);
+          }
+      } catch (E) {
+        console.log(E);
+      }
+  };
+
+  async function pickCoverPhoto() {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        base64: true
+      });
+
+      if (result.cancelled) {
+        console.log('Photo NOT loaded')
+      }
+      else {
+        setCoverPhoto(result)
+        setCoverPhotoProvided(true)
+        console.log('Photo loaded ' + coverPhoto);
+      }
+      
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
+  async function updateImage(endpoint, photoBase64) {
+    console.log('Before Photo PUT: ' + endpoint)
+
+    let bytePhoto = Buffer.from(photoBase64, "base64");
+
+    let resp = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            Accept: 'image/jpeg',
+          'Content-Type': 'image/jpeg',
+          'token': global.token
+        },
+        body: bytePhoto
+    })
+
+    console.log('After Photo PUT: ' + endpoint)
+    // console.log(resp.status)
+  }
 
   async function updateProfile() {
      console.log(name)
      console.log(aboutMe)
 
-      console.log('Before PUT')
-      let resp = await fetch('http://10.0.2.2:8080/bloggers/21', {
+     // TODO: DELETE these mocked user data
+     global.bloggerId = 10
+     global.token = 'generated_token'
+
+      console.log('Before BloggerName PUT')
+      let resp = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId, {
           method: 'PUT',
           headers: {
              Accept: 'application/json',
             'Content-Type': 'application/json',
-            'token': '8vOEtAkjygKm5owyNeSupfJQoXx84tCkFC09wIwQ'
+            'token': global.token
           },
           body: JSON.stringify({
             username: name,
             about_me: aboutMe,
           })
       })
-      console.log('After PUT')
+      console.log('After BloggerName PUT')
       console.log(resp.status)
+      if (resp.status == 200) {
+          updateImage('http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile', profilePhoto.base64)
+          updateImage('http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover', coverPhoto.base64)
+      }
   }
 
   return (
     <ScrollView>
       <View style={styles.cover}>
-       {/* <Image
-            source={{}}
+       <Image
+            source={{ uri: coverPhoto.uri }}
             style={{ width: 480, height: 180 }}
-        />  */}
-        <Button 
-            icon={
-              <Icon
-                name="picture-o"
-                size={20}
-                color="#0483c7"
-              />
-            }
-            title='  Pridaj fotku' 
-            type='clear' 
-            containerStyle={styles.coverBtnContainer} buttonStyle={styles.coverButton}
-            onPress={() => console.log("Add cover photo from gallery!")}
-        />
+        /> 
+        {
+          !coverPhotoProvided && <Button 
+              icon={
+                <Icon
+                  name="picture-o"
+                  size={20}
+                  color="#0483c7"
+                />
+              }
+              title='  Pridaj fotku' 
+              type='clear' 
+              containerStyle={styles.coverBtnContainer} 
+              buttonStyle={styles.coverButton}
+              onPress={pickCoverPhoto}
+          />
+        }
         </View>
         <View style={{ alignItems: 'center' }}>
             <TextInput style={styles.articleTitle}
@@ -60,12 +139,12 @@ export default function CreateProfileScreen() {
                 multiline={false}
                 onChangeText={setName}
             />
-            <TouchableOpacity onPress={() => console.log("Add profile photo from gallery!")}>
+            <TouchableOpacity onPress={pickProfilePhoto}>
                 <Avatar avatarStyle={styles.profilePhoto}
                     rounded
                     showEditButton
                     size="xlarge"        
-                    source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=21&type=profile',}}
+                    source={{ uri: profilePhoto.uri }}
                 />
             </TouchableOpacity>
         </View>
@@ -134,7 +213,7 @@ const styles = StyleSheet.create({
     paddingLeft:160,
   },
   coverBtnContainer:{
-    
+    position: 'absolute'
   },
   coverButton:{
     height: 180,
