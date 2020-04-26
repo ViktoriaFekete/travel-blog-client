@@ -30,7 +30,7 @@ export default function Registration({ navigation }) {
         // POST new user
         console.log('Before POST')
         try {
-            let resp = await fetch('http://10.0.2.2:8080/bloggers', {
+            let resp = await fetch('http://192.168.1.107:8080/bloggers', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

@@ -15,7 +15,7 @@ async function logout() {
         return;
     }
     try {
-        let resp = await fetch('http://10.0.2.2:8080/sessions/' + global.bloggerId, {
+        let resp = await fetch('http://192.168.1.107:8080/sessions/' + global.bloggerId, {
             method: 'DELETE',
             headers: {
                 'token': global.token

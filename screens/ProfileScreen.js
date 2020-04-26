@@ -24,7 +24,7 @@ class ProfileScreen extends React.Component {
   async componentDidUpdate() {
     if (this.state.profileForBloggerID != global.bloggerId) {
         try {
-          let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
+          let response = await fetch('http://192.168.1.107:8080/bloggers/' + global.bloggerId);
           let responseJson = await response.json();
           await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe, profileForBloggerID: global.bloggerId });
 
@@ -41,7 +41,7 @@ class ProfileScreen extends React.Component {
 
   async componentDidMount() {
     try {
-        let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
+        let response = await fetch('http://192.168.1.107:8080/bloggers/' + global.bloggerId);
         let responseJson = await response.json();
         await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
 
@@ -93,7 +93,7 @@ class ProfileScreen extends React.Component {
         <ScrollView>
             <View style={{ alignItems: 'center'}}>
               <Image
-                  source={{ uri: 'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover' }}
+                  source={{ uri: 'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover' }}
                   style={{ width: 480, height: 180 }}
               /> 
               <Text style={styles.name}>{name}</Text> 
@@ -108,7 +108,7 @@ class ProfileScreen extends React.Component {
               <Avatar  avatarStyle={styles.profilePhoto}
                   rounded
                   size="xlarge"
-                  source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
+                  source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
               />
             </View>
             <View >

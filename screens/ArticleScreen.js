@@ -7,17 +7,26 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class ArticleScreen extends React.Component{
 
-    state = {
-        articleTitle: 'Title',
-        articleText: 'Text',
-        published: '',
+    constructor(props) {
+        super(props)
+
+        articleId = global.articleId;
+
+        console.log(articleId)
+
+        this.state = {
+            articleAuthor: null,
+            articleTitle: 'Title',
+            articleText: 'Text',
+            published: '',
+        }
     }
 
   async componentDidMount() {
     try {
-        let response = await fetch('http://10.0.2.2:8080/articles/full/24');
+        let response = await fetch('http://192.168.1.107:8080/articles/full/' + articleId);
         let responseJson = await response.json();
-        this.setState({articleTitle: responseJson.title, articleText: responseJson.article_text, published: responseJson.published });
+        await this.setState({articleAuthor: responseJson.blogger_id, articleTitle: responseJson.title, articleText: responseJson.article_text, published: responseJson.published });
 
         // console.log(responseJson.title);
         // console.log(responseJson);
@@ -30,21 +39,30 @@ export default class ArticleScreen extends React.Component{
 
 
   render() {
+    console.log('In article render: ' + articleId)
+    // const { params } = this.props.navigation.state;
+    // // const itemId = params ? params.meno : null;
     
-    const { articleText, articleTitle, published } = this.state;
+    // const {state} = this.props.navigation;
+    // var name = state.params ? state.params.name : "<undefined>";
+    
+    
+    // console.log(this.props.navigation.state.params.user)
+
+    const { articleAuthor, articleText, articleTitle, published } = this.state;
     return (
 
     <ScrollView>
         <View style={{flex:1, alignItems: 'center'}}>
-          //TODO Add image picker
+          {/* //TODO Add image picker */}
             <Image
-                source={{ uri: 'http://10.0.2.2:8080/articles/28/photos/0' }}
+                source={{ uri: 'http://192.168.1.107:8080/articles/' + articleId + '/photos/0' }}
                 style={{ width: 480, height: 130 }}
             />       
             <Avatar containerStyle={{ position: 'absolute', top: 90, borderWidth: 3, borderColor: 'white'}} avatarStyle={styles.profilePhoto}
                 rounded
                 size="large"
-                source={{ uri:'https://www.pedroaraya.cl/wp-content/uploads/2016/06/photo-1438761681033-6461ffad8d80.jpg',}}
+                source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + articleAuthor + '&type=profile',}}
             />
         </View>
         <View style={styles.container}>
@@ -52,14 +70,14 @@ export default class ArticleScreen extends React.Component{
             <Text style={styles.date}>{published}</Text>
             <Text style={styles.articleText}>{articleText}</Text>
         </View>
-        //TODO Do gallery https://github.com/xiaolin/react-image-gallery 
+        {/* //TODO Do gallery https://github.com/xiaolin/react-image-gallery  */}
         <View style={styles.gallery}>
             <Image 
-                source={{ uri: 'http://10.0.2.2:8080/articles/28/photos/0' }}
+                source={{ uri: 'http://192.168.1.107:8080/articles/' + articleId + '/photos/0' }}
                 style={{ width: 200, height: 150 }}
             />
         </View>
-        //TODO Add comment section
+        {/* //TODO Add comment section */}
         <View style={styles.commentSection}>
             <Text>Sem pridu este komenty</Text>
         </View>

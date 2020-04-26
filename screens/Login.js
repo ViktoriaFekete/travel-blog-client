@@ -56,7 +56,7 @@ export default class Login extends React.Component {
         // POST new user
         console.log('Before Login POST')
         try {
-            let resp = await fetch('http://10.0.2.2:8080/sessions', {
+            let resp = await fetch('http://192.168.1.107:8080/sessions', {
                 mode: "no-cors",   
                 method: 'POST', 
                 headers: {
@@ -149,7 +149,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {
         padding: 30,
-        paddingTop: 200,
+        paddingTop: 100,
         paddingBottom: 50,
         flex: 1,
         flexDirection: 'column',

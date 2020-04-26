@@ -1,21 +1,32 @@
 import * as React from 'react';
 import { Platform, StyleSheet, Text, View, FlatList } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Image, Button, ListItem } from 'react-native-elements'
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import { Icon, Input}  from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native';
 
+// const navigation = useNavigation();
 
 function getId(item){
-  return item.id;
+  // console.log(item)
+
+  if (item.id != null) {
+    // console.log('returning: ', item.id)
+    return item.id;
+  }
+  else {
+    // console.log('returning: ', item.article_id)
+    return item.article_id;
+  }
 }
 
 
 export default class TimeLine extends React.Component{
 
-  constructor(){
+  constructor(props){
 
-    super()
+    super(props)
 
     this.state = {
     articles: [],
@@ -54,7 +65,8 @@ async searchByTags(){
 async componentDidMount() {
   try {
       // console.log("url ", this.state.parameters)
-      let response = await fetch('http://10.0.2.2:8080/articles/tile/?limit=25'+this.state.parameters);
+      let response = await fetch('http://192.168.1.107:8080/articles/tile/?limit=10'+this.state.parameters);
+
       let responseJson = await response.json();
 
       if (responseJson.content)
@@ -86,21 +98,31 @@ async componentDidMount() {
 
 keyExtractor = (item, index) => index.toString()
 
+openArticle(articleId) {
+    console.log('Trying to open article with articleID: ', articleId);
+    
+    global.articleId = articleId;
+
+    this.props.navigation.navigate('Article')
+}
+
 renderItem = ({ item }) => (
-  <Card>
-  <Image
-    source={{ uri: 'http://10.0.2.2:8080/articles/'+getId(item)+'/photos/0' }}
-    style={{ width: '100%', height: 180 }}
-  /> 
-  <View style={{ flex: 1, flexDirection: 'row'}}>
-    {/* <Text>
-      {this.getBloggerName(item.bloggerId)}
-    </Text> */}
-    <Text style={styles.title}>
-      {item.title}  {item.bloggerId}  {item.id}
-    </Text>
-    </View>
-  </Card>
+  <TouchableOpacity onPress={ () => this.openArticle(getId(item)) }>  
+    <Card>
+      <Image
+        source={{ uri: 'http://192.168.1.107:8080/articles/'+getId(item)+'/photos/0' }}
+        style={{ width: '100%', height: 180 }}
+      /> 
+      <View style={{ flex: 1, flexDirection: 'row'}}>
+        {/* <Text>
+          {this.getBloggerName(item.bloggerId)}
+        </Text> */}
+        <Text style={styles.title}>
+          {item.title}  {item.bloggerId}  {item.id}
+        </Text>
+        </View>
+    </Card>
+  </TouchableOpacity>
   )
 
 render() {
