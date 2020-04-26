@@ -129,8 +129,8 @@ return (
           onPress={this.searchByTags.bind(this)}/>
           <Icon
           raised
-          name='md-arrow-down'
-          type='ionicon'
+          name='sort'
+          type='font-awesome'
           color='#5BC0BE'
           size={20}
           // onPress={() => console.log('Sort...')} />            
