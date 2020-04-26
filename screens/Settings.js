@@ -32,6 +32,7 @@ async function logout() {
               );
             global.bloggerId = null
             global.token = null
+            console.log('User SUCCESSFULLY Logged out')
         }
         else {
             ToastAndroid.showWithGravity(
@@ -39,6 +40,8 @@ async function logout() {
                 ToastAndroid.LONG,
                 ToastAndroid.CENTER
               );
+            console.log('User NOT logged out: ' + body)
+
         }
     } catch(error) {
         console.log('fetch ended up in error state in Settings-logout()');

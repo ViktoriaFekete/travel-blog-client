@@ -21,6 +21,24 @@ class ProfileScreen extends React.Component {
         aboutMe: 'Kto som',
   }
 
+  async componentDidUpdate() {
+    if (this.state.profileForBloggerID != global.bloggerId) {
+        try {
+          let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
+          let responseJson = await response.json();
+          await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe, profileForBloggerID: global.bloggerId });
+
+          // console.log(responseJson.username);
+          // console.log(responseJson.aboutMe);
+          
+          return responseJson;
+        } catch (error) {
+            console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
+            console.error(error);
+        }
+    }
+  }
+
   async componentDidMount() {
     try {
         let response = await fetch('http://10.0.2.2:8080/bloggers/' + global.bloggerId);
@@ -45,8 +63,8 @@ class ProfileScreen extends React.Component {
 
     const { name, aboutMe } = this.state;
 
-    if (isFocused)
-      this.componentDidMount()
+    // if (isFocused)
+    //   this.componentDidMount()
     
     console.log('BloggerId in Profile: ', global.bloggerId)
     if (global.bloggerId == null) {
