@@ -6,6 +6,7 @@ import ArticleSreen from './screens/ArticleScreen';
 import Login from './screens/Login';
 import ProfileScreen from './screens/ProfileScreen';
 import CreateProfileScreen from './screens/CreateProfileScreen';
+import TimeLine from './screens/TimeLine';
 
 
 export default class App extends React.Component {
