@@ -68,11 +68,6 @@ export default class ProfileScreen extends React.Component {
               size={40}
               onPress={() => console.log('Add new article...')} />            
           </View>
-          <View>
-            <Text>
-              Tuto budu bloggerove clanky
-            </Text>
-          </View>
 
     </ScrollView>
   );

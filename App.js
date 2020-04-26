@@ -11,7 +11,7 @@ import CreateProfileScreen from './screens/CreateProfileScreen';
 export default class App extends React.Component {
   render() {
     return (
-      <ProfileScreen/>
+      <CreateProfileScreen/>
     );
   }
 }
