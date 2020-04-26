@@ -25,7 +25,7 @@ export default class SearchScreen extends React.Component {
             value={search}
         />
         <Text style={{ paddingTop: 30}}>
-            Hello
+            
         </Text>
     </View>
     );

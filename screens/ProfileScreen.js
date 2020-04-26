@@ -10,8 +10,8 @@ import { Icon}  from 'react-native-elements'
 export default class ProfileScreen extends React.Component {
 
   state = {
-        name: 'Blogger',
-        aboutMe: 'Kto som',
+        name: '',
+        aboutMe: '',
   }
 
   async componentDidMount() {
