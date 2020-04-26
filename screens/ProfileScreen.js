@@ -16,7 +16,7 @@ export default class ProfileScreen extends React.Component {
 
   async componentDidMount() {
     try {
-        let response = await fetch('http://10.0.2.2:8080/bloggers/21');
+        let response = await fetch('http://10.0.2.2:8080/bloggers/9');
         let responseJson = await response.json();
         this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
 
@@ -37,7 +37,7 @@ export default class ProfileScreen extends React.Component {
     <ScrollView>
           <View style={{ alignItems: 'center'}}>
             <Image
-                source={{ uri: 'http://10.0.2.2:8080/bloggers/photos?bloggerId=21&type=cover' }}
+                source={{ uri: 'http://10.0.2.2:8080/bloggers/photos?bloggerId=9&type=cover' }}
                 style={{ width: 480, height: 180 }}
             /> 
             <Text style={styles.name}>{name}</Text> 
@@ -52,7 +52,7 @@ export default class ProfileScreen extends React.Component {
             <Avatar  avatarStyle={styles.profilePhoto}
                 rounded
                 size="xlarge"
-                source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=21&type=profile',}}
+                source={{ uri:'http://10.0.2.2:8080/bloggers/photos?bloggerId=9&type=profile',}}
             />
           </View>
           <View >
