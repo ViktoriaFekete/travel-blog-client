@@ -32,7 +32,7 @@ export default function CreateNewArticleScreen( { navigation } ) {
                 'token': 'generated_token'
               },
               body: JSON.stringify({
-                blogger_id: '4',
+                blogger_id: global.bloggerId,
                 title: title,
                 article_text: text,
                 selected_tags: tags,
