@@ -5,6 +5,8 @@ import { Avatar, Image, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Tags from "react-native-tags";
+import * as ImagePicker from 'expo-image-picker';
+import { Buffer } from "buffer";
 
 export default function CreateNewArticleScreen( { navigation } ) {
 
@@ -12,6 +14,8 @@ export default function CreateNewArticleScreen( { navigation } ) {
   const [text, setText] = React.useState('');
   const [tags, setTags] = React.useState(['']);
   const [tag, setTag] = React.useState('');
+  const [articleCoverPhoto, setArticleCoverPhoto] = React.useState({});
+  const [articleCoverPhotoProvided, setAtricleCoverPhotoProvided] = React.useState(false);
 
   function updateTags() {
     console.log(tags)
@@ -22,7 +26,7 @@ export default function CreateNewArticleScreen( { navigation } ) {
      
       console.log("tagy tu ", tags)
       let resp = {}
-      console.log('Before POST')
+      console.log('Before article POST')
       try {
           resp = await fetch('http://192.168.1.107:8080/articles', {
               method: 'POST',
@@ -43,26 +47,88 @@ export default function CreateNewArticleScreen( { navigation } ) {
           console.log("ERROR: fetch ended up in catch error state in CreateNewArticleScreen")
           console.error(error);
       }
-      console.log('After POST')
+      console.log('After article POST')
       console.log("tag ", tags)
       console.log(resp.status)
+     
+      if ((resp.status == 201) && (articleCoverPhotoProvided == true)){
+        let articleId = await resp.text()
+        updateImage(articleId, articleCoverPhoto.base64)
+      }
+  }
+
+  async function pickArticleCoverPhoto() {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        base64: true
+      });
+
+      if (result.cancelled) {
+        console.log('Photo NOT loaded')
+      }
+      else {
+        setArticleCoverPhoto(result)
+        setAtricleCoverPhotoProvided(true)
+        console.log('Photo loaded ' + articleCoverPhoto);
+      }
+      
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
+  async function updateImage(articleId, photoBase64) {
+    console.log('Before Photo PUT: ')
+
+    let endpoint = 'http://192.168.1.107:8080/articles/' + articleId + '/photos/'+ global.bloggerId
+    let resp;
+    let bytePhoto = Buffer.from(photoBase64, "base64");
+
+    try {
+        resp = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                Accept: 'image/jpeg',
+              'Content-Type': 'image/jpeg',
+              'token': global.token
+            },
+            body: bytePhoto
+        })
+        console.log('After Photo PUT: ' + endpoint)
+    }
+    catch (error) {
+        console.log("ERROR: fetch ended up in catch error state in CreateProfileScreen-updateImage()")
+        console.error(error);
+    }
+
+    // console.log(resp.status)
   }
 
   return (
     <ScrollView>
       <View style={styles.cover}>
-        <Button
-            icon={
-              <Icon
-                name="picture-o"
-                size={15}
-                color="#0483c7"
-              />
-            }
-            title='  Pridaj fotku' 
-            type='outline' 
-            containerStyle={styles.coverBtnContainer} buttonStyle={styles.coverButton}
-        />
+      <Image
+            source={{ uri: articleCoverPhoto.uri }}
+            style={{ width: 480, height: 130 }}
+        /> 
+        {
+          !articleCoverPhotoProvided && <Button 
+              icon={
+                <Icon
+                  name="picture-o"
+                  size={20}
+                  color="#0483c7"
+                />
+              }
+              title='  Pridaj fotku' 
+              type='clear' 
+              containerStyle={styles.coverBtnContainer} 
+              buttonStyle={styles.coverButton}
+              onPress={pickArticleCoverPhoto}
+          />
+        }
         <Avatar containerStyle={{position: 'absolute', top: 90, borderWidth: 3, borderColor: 'white'}} avatarStyle={styles.profilePhoto}
             rounded
             size="large"
@@ -176,12 +242,13 @@ const styles = StyleSheet.create({
   },
   coverBtnContainer:{
     paddingTop: 30,
+    position: 'absolute',
     
   },
   coverButton:{
     height: 40,
-    width: 150,
-    borderWidth: 2,  
+    borderWidth: 2, 
+    width: '90%', 
   },
   cover:{
     flex:1, 

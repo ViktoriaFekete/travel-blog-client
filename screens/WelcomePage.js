@@ -16,8 +16,8 @@ export default class WelcomePage extends React.Component {
 
     return (
       <View style={styles.container}>
-          <Text style={styles.welcomeText}>Ahoj! Si tu prvýkrát?</Text>
-          <Text style={styles.welcomeText}>Vyber si z možností a pokračuj{"\n"} s nami v spoznávaní sveta :)</Text>
+          <Text style={styles.welcomeText}>Ahoj!</Text>
+          {/* <Text style={styles.welcomeText}>Vyber si z možností a pokračuj{"\n"} s nami v spoznávaní sveta :)</Text> */}
           <View style={styles.contentContainer}>
               <Button 
                   title='Registruj' 

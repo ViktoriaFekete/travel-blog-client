@@ -115,13 +115,13 @@ class ProfileScreen extends React.Component {
               <Text style={{paddingLeft:20, paddingTop: 20, fontSize: 24}}>About Me</Text>
               <Text style={styles.aboutMe}>{aboutMe}</Text>
             </View>
-            <View style={{ position: 'relative', left: 300}}>
+            <View style={{ position: 'relative', left: '80%'}}>
               <Icon
                 raised
                 name='md-add'
                 type='ionicon'
                 color='#5BC0BE'
-                size={40}
+                size={30}
                 onPress={() => this.props.navigation.navigate('CreateNewArticleScreen')
               } />            
             </View>

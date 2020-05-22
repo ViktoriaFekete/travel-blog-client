@@ -68,7 +68,7 @@ async componentDidMount() {
       let response = await fetch('http://192.168.1.107:8080/articles/tile/?limit=10'+this.state.parameters);
 
       let responseJson = await response.json();
-
+      
       if (responseJson.content)
         this.setState({articles: responseJson.content });
       else
