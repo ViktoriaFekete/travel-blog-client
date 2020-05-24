@@ -77,7 +77,7 @@ async componentDidMount() {
       return responseJson;
   } catch (error) {
       console.log("fetch ended up in error state in TimeLine")
-      console.error(error);
+     // console.error(error);
   }
 }
 

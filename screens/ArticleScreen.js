@@ -4,6 +4,7 @@ import { StyleSheet, Text, ScrollView, View, TextInput } from 'react-native';
 import { Avatar, Image, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ActivityIndicator } from 'react-native';
 
 export default class ArticleScreen extends React.Component{
 
@@ -16,9 +17,10 @@ export default class ArticleScreen extends React.Component{
 
         this.state = {
             articleAuthor: null,
-            articleTitle: 'Title',
-            articleText: 'Text',
+            articleTitle: 'Článok sa načítava...',
+            articleText: '',
             published: '',
+            status: true,
         }
     }
 
@@ -33,20 +35,19 @@ export default class ArticleScreen extends React.Component{
         return responseJson;
     } catch (error) {
         console.log("ERROR: fetch ended up in catch error state in ArticleScreen")
-        console.error(error);
+        //console.error(error);
+        this.setState({ status: false})
     }
   }
 
 
   render() {
     console.log('In article render: ' + articleId)
-    // const { params } = this.props.navigation.state;
-    // // const itemId = params ? params.meno : null;
     
+    // const { params } = this.props.navigation.state;
+    // // const itemId = params ? params.meno : null; 
     // const {state} = this.props.navigation;
     // var name = state.params ? state.params.name : "<undefined>";
-    
-    
     // console.log(this.props.navigation.state.params.user)
 
     const { articleAuthor, articleText, articleTitle, published } = this.state;
@@ -65,18 +66,31 @@ export default class ArticleScreen extends React.Component{
                 source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + articleAuthor + '&type=profile',}}
             />
         </View>
-        <View style={styles.container}>
-            <Text style={styles.articleTitle}>{articleTitle}</Text>
-            <Text style={styles.date}>{published}</Text>
-            <Text style={styles.articleText}>{articleText}</Text>
+        {this.state.status ?
+        <View>        
+          <View style={styles.container}>
+              <Text style={styles.articleTitle}>{articleTitle}</Text>
+              <Text style={styles.date}>{published}</Text>
+              <Text style={styles.articleText}>{articleText}</Text>
+          </View>
+          {/* //TODO Do gallery https://github.com/xiaolin/react-image-gallery  */}
+          <View style={styles.gallery}>
+              <Image 
+                  source={{ uri: 'http://192.168.1.107:8080/articles/' + articleId + '/photos/0' }}
+                  style={{ width: 200, height: 150 }}
+                  PlaceholderContent={<ActivityIndicator />}
+              />
+          </View>
+        </View> 
+        :
+        <View style={{ alignItems: 'center'}}>
+          {/* <ActivityIndicator size={70} style={{ paddingTop: 100 }}/>
+          <Text style={{ textAlign: 'center', fontSize: 22}}>Článok sa načítava...</Text> */}
+          <Text style={{ textAlign: 'center', fontSize: 22, paddingTop: 100}}>Oops, Si offline</Text>
+          <Text style={{ textAlign: 'center', fontSize: 22, paddingTop: 20}}>Skontroluj pripojenie na Internet a skús znova.</Text>
+          <Button title="Skúsiť znova" onPress = { () => console.log("get state function") } containerStyle={styles.tryagainBtn} buttonStyle={{ height: 50}}/>
         </View>
-        {/* //TODO Do gallery https://github.com/xiaolin/react-image-gallery  */}
-        <View style={styles.gallery}>
-            <Image 
-                source={{ uri: 'http://192.168.1.107:8080/articles/' + articleId + '/photos/0' }}
-                style={{ width: 200, height: 150 }}
-            />
-        </View>
+        }
         {/* //TODO Add comment section */}
         
     </ScrollView>
@@ -150,5 +164,9 @@ const styles = StyleSheet.create({
   },
   commentSection:{
       padding: 20
+  },
+  tryagainBtn:{
+    paddingTop: 40,
+    width: '60%',
   }
 });
