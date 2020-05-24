@@ -1,4 +1,8 @@
 import * as React from 'react';
+import NetInfo from "@react-native-community/netinfo";
+// import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
+
 import { Button } from 'react-native-elements';
 import { StyleSheet, Text, ScrollView, View, TextInput } from 'react-native';
 import { Avatar, Image, Input } from 'react-native-elements';
@@ -16,19 +20,64 @@ export default function CreateNewArticleScreen( { navigation } ) {
   const [tag, setTag] = React.useState('');
   const [articleCoverPhoto, setArticleCoverPhoto] = React.useState({});
   const [articleCoverPhotoProvided, setAtricleCoverPhotoProvided] = React.useState(false);
+  const networkState = NetInfo.useNetInfo();
 
   function updateTags() {
     console.log(tags)
     setTags([...tags, tag]);
   }
 
+  async function storeLocalyNewArticle() {
+      let storedArticles;
+      let articlesToBeStored;
+
+      // get stored articles
+      await AsyncStorage.getItem('newArticles', (err, result) => {
+        storedArticles = JSON.parse(result);
+      });
+
+      message_body = JSON.stringify([
+        JSON.stringify({
+            blogger_id: global.bloggerId,
+            title: title,
+            article_text: text,
+            selected_tags: tags,
+            photo_uri: articleCoverPhoto.uri,
+        })
+    ]);
+      
+      // check if any articles was stored, add new article and prepare string
+      if (storedArticles == null) {
+        articlesToBeStored = message_body
+      }
+      else {
+        articlesToBeStored = storedArticles;
+
+        articlesToBeStored.push( message_body );
+
+        articlesToBeStored = JSON.stringify(articlesToBeStored);
+      }
+  
+      AsyncStorage.setItem('newArticles', articlesToBeStored);
+  }
+
   async function sendArticleForm() {
      
       console.log("tagy tu ", tags)
       let resp = {}
+
+      console.log("network state is: ", networkState.isConnected.toString());
+      if (networkState.isConnected == false) {
+          console.log("Store data for later upload");
+
+          storeLocalyNewArticle()
+
+          return;
+      }
+      
       console.log('Before article POST')
       try {
-          resp = await fetch('http://192.168.1.107:8080/articles', {
+        resp = await fetch('http://192.168.1.107:8080/articles', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -45,15 +94,15 @@ export default function CreateNewArticleScreen( { navigation } ) {
       }
       catch (error) {
           console.log("ERROR: fetch ended up in catch error state in CreateNewArticleScreen")
-          console.error(error);
+          // console.error(error);
       }
       console.log('After article POST')
       console.log("tag ", tags)
       console.log(resp.status)
      
       if ((resp.status == 201) && (articleCoverPhotoProvided == true)){
-        let articleId = await resp.text()
-        updateImage(articleId, articleCoverPhoto.base64)
+          let articleId = await resp.text()
+          updateImage(articleId, articleCoverPhoto.base64)
       }
   }
 
