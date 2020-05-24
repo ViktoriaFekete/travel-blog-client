@@ -79,7 +79,7 @@ export default function Registration({ navigation }) {
         }
         catch (error) {
             console.log("ERROR: fetch ended up in catch error state in Registration")
-            console.error(error);
+            //console.error(error);
         }
     }
 

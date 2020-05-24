@@ -34,7 +34,7 @@ class ProfileScreen extends React.Component {
           return responseJson;
         } catch (error) {
             console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
-            console.error(error);
+         //   console.error(error);
         }
     }
   }
@@ -50,7 +50,7 @@ class ProfileScreen extends React.Component {
         return responseJson;
     } catch (error) {
         console.log("ERROR: fetch ended up in catch error state in ProfileScreen")
-        console.error(error);
+      //  console.error(error);
     }
   }
 
