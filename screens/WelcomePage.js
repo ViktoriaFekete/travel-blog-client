@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Overlay, Image, Icon } from 'react-native-elements';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 
 
 export default class WelcomePage extends React.Component {
@@ -13,9 +14,19 @@ export default class WelcomePage extends React.Component {
 
     this.state = {
       visible: false,
-      status: false,
+      status: global.networkState,
     }
 }
+
+  async setNetworkStatus() {
+    await this.setState({status: global.networkState})
+    console.log(this.state.status)
+
+    if (this.state.status == true)
+      this.setState({visible: false});
+    else
+      this.setState({visible: true});
+  }
 
   toggleOverlay() {
     if (this.state.visible == true)
@@ -24,20 +35,29 @@ export default class WelcomePage extends React.Component {
       this.setState({visible: true});
   };
 
-  checkStateToRegistrate(){
+  async checkStateToRegistrate(){
     const { navigate } = this.props.navigation
+
+    await this.setState({status: global.networkState})
+    
     if (this.state.status == true)
       navigate('Registration')
-    else
+    else {
       this.setState({visible: true});
+    }
   }
 
-  checkStateToLogin(){
+  async checkStateToLogin(){
     const { navigate } = this.props.navigation
+    console.log(global.networkState)
+
+    await this.setState({status: global.networkState})
+
     if (this.state.status == true)
       navigate('Login')
-    else
+    else {
       this.setState({visible: true});
+    }
   }
 
   render() {
@@ -87,7 +107,7 @@ export default class WelcomePage extends React.Component {
                 style={{ width: 100, height: 100 }}
               />
               <Text style={styles.msg}>Skontroluj pripojenie na Internet a skús znova.</Text>
-              <Button title="Skúsiť znova" onPress = { () => console.log("get state function") } containerStyle={styles.tryagainBtn} buttonStyle={{ height: 50}}/>
+              <Button title="Skúsiť znova" onPress = { () => this.setNetworkStatus() } containerStyle={styles.tryagainBtn} buttonStyle={{ height: 50}}/>
             </Overlay>
           </View>
       </View>

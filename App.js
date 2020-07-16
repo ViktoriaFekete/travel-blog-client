@@ -18,7 +18,7 @@ import { Buffer } from "buffer";
 export default class App extends React.Component {
   constructor() {
     super()
-    global.isNotHappening = false
+    global.isHappening = ""
   }
 
   sendStoredArticlesToServer2() {
@@ -26,22 +26,15 @@ export default class App extends React.Component {
   }
 
     async sendStoredArticlesToServer() {
-        let storedArticles;
-
-
-        // if (global.isNotHappening) {
-        //     return;
-        // }
-        
-        global.isNotHappening = true;
+        let storedArticles;   
         
         await AsyncStorage.getItem('newArticles', (err, result) => {
             storedArticles = JSON.parse(result)
             console.log("Articles loaded");
             console.log(storedArticles);
-        });
 
-        // await AsyncStorage.removeItem('newArticles');
+            AsyncStorage.removeItem('newArticles');
+        });
 
         for (let article of storedArticles) {
             console.log("jeden")
@@ -49,9 +42,15 @@ export default class App extends React.Component {
 
             article = JSON.parse(article)
 
+            let title = article['title']
             let blogger_id = article['blogger_id']
             let photo_uri = article['photo_uri']
             delete article['photo_uri']            
+
+            if (title == global.isHappening)
+              return
+            
+            global.isHappening = title
 
             console.log('Before article POST')
             try {
@@ -117,7 +116,13 @@ export default class App extends React.Component {
         console.log("Is connected?", state.isConnected);
 
         if (state.isConnected) {
-            this.sendStoredArticlesToServer2();
+          global.networkState = true 
+
+          this.sendStoredArticlesToServer2();
+          
+        }
+        else {
+          global.networkState = false
         }
       });
 
