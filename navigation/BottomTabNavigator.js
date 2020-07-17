@@ -22,7 +22,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Links"
         component={Settings}
         options={{
-          title: 'Nastavenia',
+          title: 'Settings',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-settings" />,
         }}
       />
@@ -30,7 +30,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={TimeLine}
         options={{
-          title: 'Hlavná stránka',
+          title: 'Home',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
         }}
       />
@@ -38,7 +38,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: 'Profil',
+          title: 'My profile',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-person" />,
         }}
       />
@@ -51,10 +51,10 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'Cestovateľský Denník';
+      return 'Travel Blog';
     case 'Links':
-      return 'Nastavenia';
+      return 'Settings';
     case 'Profile':
-      return 'Môj profil';
+      return 'My profile';
   }
 }

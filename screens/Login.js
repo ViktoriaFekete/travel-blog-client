@@ -56,7 +56,7 @@ export default class Login extends React.Component {
         // POST new user
         console.log('Before Login POST')
         try {
-            let resp = await fetch('http://192.168.1.107:8080/sessions', {
+            let resp = await fetch('http://' + global.serverIpAndPort + '/sessions', {
                 mode: "no-cors",   
                 method: 'POST', 
                 headers: {

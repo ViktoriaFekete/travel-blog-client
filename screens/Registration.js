@@ -30,7 +30,7 @@ export default function Registration({ navigation }) {
         // POST new user
         console.log('Before POST')
         try {
-            let resp = await fetch('http://192.168.1.107:8080/bloggers', {
+            let resp = await fetch('http://' + global.serverIpAndPort + '/bloggers', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -55,7 +55,7 @@ export default function Registration({ navigation }) {
             console.log('Before Login POST')
 
             // user registered, now log him in and get id and token
-            resp = await fetch('http://192.168.1.107:8080/sessions', {
+            resp = await fetch('http://' + global.serverIpAndPort + '/sessions', {
                 mode: "no-cors",   
                 method: 'POST', 
                 headers: {

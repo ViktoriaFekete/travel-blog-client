@@ -77,7 +77,7 @@ export default function CreateNewArticleScreen( { navigation } ) {
       
       console.log('Before article POST')
       try {
-        resp = await fetch('http://192.168.1.107:8080/articles', {
+        resp = await fetch('http://' + global.serverIpAndPort + '/articles', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -131,7 +131,7 @@ export default function CreateNewArticleScreen( { navigation } ) {
   async function updateImage(articleId, photoBase64) {
     console.log('Before Photo PUT: ')
 
-    let endpoint = 'http://192.168.1.107:8080/articles/' + articleId + '/photos/'+ global.bloggerId
+    let endpoint = 'http://' + global.serverIpAndPort + '/articles/' + articleId + '/photos/'+ global.bloggerId
     let resp;
     let bytePhoto = Buffer.from(photoBase64, "base64");
 
@@ -181,7 +181,7 @@ export default function CreateNewArticleScreen( { navigation } ) {
         <Avatar containerStyle={{position: 'absolute', top: 90, borderWidth: 3, borderColor: 'white'}} avatarStyle={styles.profilePhoto}
             rounded
             size="large"
-            source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
+            source={{ uri:'http://' + global.serverIpAndPort + '/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
         />
       </View>
       <View style={styles.container}>

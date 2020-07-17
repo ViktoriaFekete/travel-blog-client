@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Platform, StyleSheet, Text, View, FlatList } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { Card, Image, Button, ListItem } from 'react-native-elements'
+import { Card, Image, Button, ListItem, Avatar } from 'react-native-elements'
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import { Icon, Input}  from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
@@ -65,7 +65,7 @@ async searchByTags(){
 async componentDidMount() {
   try {
       // console.log("url ", this.state.parameters)
-      let response = await fetch('http://192.168.1.107:8080/articles/tile/?limit=10'+this.state.parameters);
+      let response = await fetch('http://' + global.serverIpAndPort + '/articles/tile/?limit=10'+this.state.parameters);
 
       let responseJson = await response.json();
       
@@ -110,15 +110,23 @@ renderItem = ({ item }) => (
   <TouchableOpacity onPress={ () => this.openArticle(getId(item)) }>  
     <Card>
       <Image
-        source={{ uri: 'http://192.168.1.107:8080/articles/'+getId(item)+'/photos/0' }}
+        source={{ uri: 'http://' + global.serverIpAndPort + '/articles/'+getId(item)+'/photos/0' }}
         style={{ width: '100%', height: 180 }}
       /> 
       <View style={{ flex: 1, flexDirection: 'row'}}>
+        <Avatar containerStyle={styles.avatar}
+          rounded
+          size='medium'
+          source={{
+          uri:
+              'http://' + global.serverIpAndPort + '/bloggers/photos?bloggerId=' + item.bloggerId + '&type=profile',
+          }}
+        />
         {/* <Text>
           {this.getBloggerName(item.bloggerId)}
         </Text> */}
         <Text style={styles.title}>
-          {item.title}  {item.bloggerId}  {item.id}
+          {item.title}
         </Text>
         </View>
     </Card>
@@ -185,9 +193,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: 'bold',
     fontSize: 20,
+    paddingLeft: 15,
+    marginTop: 10,
   },
   likes:{
     marginTop: 10,
+  },
+  avatar: {
+    marginTop: 10
   }
   
 });

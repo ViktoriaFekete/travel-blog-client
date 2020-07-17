@@ -15,7 +15,7 @@ async function logout() {
         return;
     }
     try {
-        let resp = await fetch('http://192.168.1.107:8080/sessions/' + global.bloggerId, {
+        let resp = await fetch('http://' + global.serverIpAndPort + '/sessions/' + global.bloggerId, {
             method: 'DELETE',
             headers: {
                 'token': global.token
@@ -54,8 +54,8 @@ export default function LinksScreen() {
     return (
         <View>
         <Button 
-            title='Odhlásenie'
-            containerStyle={styles.button}
+            title='Log out'
+            buttonStyle={styles.button}
             onPress={ () => logout()}
         />
     </View>
@@ -64,7 +64,8 @@ export default function LinksScreen() {
 
 const styles = StyleSheet.create({
     button: {
-        paddingTop: 1
+        paddingTop: 1,
+        height: 50,
     }
 })
   

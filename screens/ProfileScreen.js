@@ -7,6 +7,7 @@ import { Button } from 'react-native-elements';
 import { Icon}  from 'react-native-elements'
 
 import { useIsFocused } from '@react-navigation/native';
+import { getContentUriAsync } from 'expo-file-system';
 
 export default function(props) {
   const isFocused = useIsFocused();
@@ -24,7 +25,7 @@ class ProfileScreen extends React.Component {
   async componentDidUpdate() {
     if (this.state.profileForBloggerID != global.bloggerId) {
         try {
-          let response = await fetch('http://192.168.1.107:8080/bloggers/' + global.bloggerId);
+          let response = await fetch('http://' + global.serverIpAndPort + '/bloggers/' + global.bloggerId);
           let responseJson = await response.json();
           await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe, profileForBloggerID: global.bloggerId });
 
@@ -41,7 +42,7 @@ class ProfileScreen extends React.Component {
 
   async componentDidMount() {
     try {
-        let response = await fetch('http://192.168.1.107:8080/bloggers/' + global.bloggerId);
+        let response = await fetch('http://' + global.serverIpAndPort + '/bloggers/' + global.bloggerId);
         let responseJson = await response.json();
         await this.setState({name: responseJson.username, aboutMe: responseJson.aboutMe });
 
@@ -70,21 +71,26 @@ class ProfileScreen extends React.Component {
     if (global.bloggerId == null) {
         return (
           <View style={styles.notLoggedContainer}>
-              <Text style={{color:'red'}}>Nie si prihlásený.</Text>
-              <Button 
-                  title='Prihlás sa' 
-                  type='solid' 
-                  containerStyle={styles.buttons} 
-                  buttonStyle={styles.btn}
-                  onPress = { () => this.props.navigation.navigate('Login') }
-              />
-              <Button 
-                  title='Registruj sa' 
-                  type='solid' 
-                  containerStyle={styles.buttons} 
-                  buttonStyle={styles.btn}
-                  onPress = { () => this.props.navigation.navigate('Registration') }
-              />
+              <View style={styles.textContainer}>
+                  <Text style={styles.information}>Oops, you are not logged in.</Text>
+                  <Text style={styles.information}>Log in or create a profile to get more features.</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                  <Button 
+                      title='Login' 
+                      type='solid' 
+                      containerStyle={styles.buttons} 
+                      buttonStyle={styles.btn}
+                      onPress = { () => this.props.navigation.navigate('Login') }
+                  />
+                  <Button 
+                      title='Registrate' 
+                      type='solid' 
+                      containerStyle={styles.buttons} 
+                      buttonStyle={styles.btn}
+                      onPress = { () => this.props.navigation.navigate('Registration') }
+                  />
+              </View>
           </View>
         )
     }
@@ -93,7 +99,7 @@ class ProfileScreen extends React.Component {
         <ScrollView>
             <View style={{ alignItems: 'center'}}>
               <Image
-                  source={{ uri: 'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover' }}
+                  source={{ uri: 'http://' + global.serverIpAndPort + '/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover' }}
                   style={{ width: 480, height: 180 }}
               /> 
               <Text style={styles.name}>{name}</Text> 
@@ -108,7 +114,7 @@ class ProfileScreen extends React.Component {
               <Avatar  avatarStyle={styles.profilePhoto}
                   rounded
                   size="xlarge"
-                  source={{ uri:'http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
+                  source={{ uri:'http://' + global.serverIpAndPort + '/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile',}}
               />
             </View>
             <View >
@@ -144,7 +150,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   container: {
@@ -157,14 +163,16 @@ const styles = StyleSheet.create({
     paddingTop: 100,
   },
   buttons: {
-      paddingTop: 20,
-      paddingRight: 60,
-      paddingLeft: 60,
-      height: 90,  
+    paddingRight: 30,
+    paddingLeft: 30,
+    height: 70,  
+  },
+  buttonContainer: {
+    paddingTop: 110,
   },
   btn:{
-      height: 40,
-      borderWidth: 1.5
+    height: 50,
+    borderWidth: 1.5,
   },
   profilePhoto:{
     flex: 1,
@@ -208,5 +216,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: 'center',
     textAlign: 'justify',
-  }
+  },
+  information: {
+    color: 'gray',
+    fontSize: 22,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    textAlign: 'center'
+  },
 });

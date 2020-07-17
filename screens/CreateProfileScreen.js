@@ -93,7 +93,7 @@ export default function CreateProfileScreen({ navigation }) {
 
       console.log('Before BloggerName PUT')
       try {
-           resp = await fetch('http://192.168.1.107:8080/bloggers/' + global.bloggerId, {
+           resp = await fetch('http://' + global.serverIpAndPort + '/bloggers/' + global.bloggerId, {
               method: 'PUT',
               headers: {
                 Accept: 'application/json',
@@ -113,8 +113,8 @@ export default function CreateProfileScreen({ navigation }) {
       console.log('After BloggerName PUT')
       console.log(resp.status)
       if (resp.status == 200) {
-          updateImage('http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile', profilePhoto.base64)
-          updateImage('http://192.168.1.107:8080/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover', coverPhoto.base64)
+          updateImage('http://' + global.serverIpAndPort + '/bloggers/photos?bloggerId=' + global.bloggerId + '&type=profile', profilePhoto.base64)
+          updateImage('http://' + global.serverIpAndPort + '/bloggers/photos?bloggerId=' + global.bloggerId + '&type=cover', coverPhoto.base64)
 
           navigation.navigate('Home')
       }

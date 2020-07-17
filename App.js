@@ -19,6 +19,7 @@ export default class App extends React.Component {
   constructor() {
     super()
     global.isHappening = ""
+    global.serverIpAndPort = "192.168.1.19:8080"
   }
 
   sendStoredArticlesToServer2() {
@@ -54,7 +55,7 @@ export default class App extends React.Component {
 
             console.log('Before article POST')
             try {
-              resp = await fetch('http://192.168.1.107:8080/articles', {
+              resp = await fetch('http://' + global.serverIpAndPort + '/articles', {
                     method: 'POST',
                     headers: {
                       Accept: 'application/json',
@@ -79,7 +80,7 @@ export default class App extends React.Component {
               console.log('Before Photo PUT: ')
               console.log(blogger_id)
 
-              let endpoint = 'http://192.168.1.107:8080/articles/' + articleId + '/photos/' + blogger_id
+              let endpoint = 'http://' + global.serverIpAndPort + '/articles/' + articleId + '/photos/' + blogger_id
               let resp;
               let photoBase64
               photoBase64 = await FileSystem.readAsStringAsync(photo_uri, { encoding: 'base64' });
