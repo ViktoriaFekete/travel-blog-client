@@ -77,7 +77,8 @@ class ProfileScreen extends React.Component {
               </View>
               <View style={styles.buttonContainer}>
                   <Button 
-                      title='Login' 
+                      title='Login'
+                      titleStyle={styles.titleStyle} 
                       type='solid' 
                       containerStyle={styles.buttons} 
                       buttonStyle={styles.btn}
@@ -85,6 +86,7 @@ class ProfileScreen extends React.Component {
                   />
                   <Button 
                       title='Registrate' 
+                      titleStyle={styles.titleStyle}
                       type='solid' 
                       containerStyle={styles.buttons} 
                       buttonStyle={styles.btn}
@@ -224,4 +226,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center'
   },
+  titleStyle: {
+    fontSize: 22,
+  }
 });

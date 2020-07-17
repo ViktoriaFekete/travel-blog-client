@@ -6,7 +6,7 @@ import NetInfo from "@react-native-community/netinfo";
 
 export default class WelcomePage extends React.Component {
   static navigationOptions = {
-    title: 'Ahoj!'
+    title: 'Hi!'
   };
   
   constructor(props) {
@@ -65,25 +65,28 @@ export default class WelcomePage extends React.Component {
 
     return (
       <View style={styles.container}>
-          <Text style={styles.welcomeText}>Ahoj!</Text>
-          {/* <Text style={styles.welcomeText}>Vyber si z možností a pokračuj{"\n"} s nami v spoznávaní sveta :)</Text> */}
+          <Text style={styles.welcomeText}>Hi!</Text>
+          <Text style={styles.welcomeText}>Are you new here? Choose from the options below and join us to explore the world :)</Text>
           <View style={styles.contentContainer}>
               <Button 
-                  title='Registruj' 
+                  title='Registrate' 
+                  titleStyle={styles.titleStyle}
                   type='solid' 
                   containerStyle={styles.buttons} 
                   buttonStyle={styles.btn}
                   onPress = { () => this.checkStateToRegistrate()}
               />
               <Button 
-                  title='Prihlás sa' 
+                  title='Log in' 
+                  titleStyle={styles.titleStyle}
                   type='solid' 
                   containerStyle={styles.buttons} 
                   buttonStyle={styles.btn}
                   onPress = { () => this.checkStateToLogin()}
               />
               <Button 
-                  title='Pokračuj bez prihlásenia' 
+                  title='Continue without login' 
+                  titleStyle={styles.titleStyle}
                   type='solid' 
                   containerStyle={styles.buttons} 
                   buttonStyle={styles.btn}
@@ -102,7 +105,7 @@ export default class WelcomePage extends React.Component {
               />
               <Text style={styles.msg}>Ooops, Si offline.</Text>
               <Image
-                source={{ uri: "https://cdn.iconscout.com/icon/free/png-512/wifi-off-1768029-1502203.png" }}
+                source="../assets/images/1024px-Offline_logo.svg.png"
                 opacity = {0.6}
                 style={{ width: 100, height: 100 }}
               />
@@ -121,22 +124,23 @@ const styles = StyleSheet.create({
     flex: 0.3,
     justifyContent: 'center',
     alignSelf: 'center',
-    fontSize: 24
+    fontSize: 22,
+    textAlign: 'center',
   },
   container: {
-    paddingTop: 100,
+    paddingTop: 70,
     padding: 25,
     flex: 1,
   },
   contentContainer: {
-    paddingTop: 100,
+    paddingTop: 30,
   },
   buttons: {
-      padding: 5,
-      height: 90,  
+    padding: 5,
+    height: 90,  
   },
   btn:{
-      height: 70,
+    height: 70,
   },
   offlineMsg:{
     width: '85%',
@@ -152,6 +156,9 @@ const styles = StyleSheet.create({
   tryagainBtn:{
     paddingTop: 40,
     width: '60%',
+  },
+  titleStyle: {
+    fontSize: 22,
   }
 });
 

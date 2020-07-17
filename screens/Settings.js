@@ -55,6 +55,7 @@ export default function LinksScreen() {
         <View>
         <Button 
             title='Log out'
+            titleStyle={styles.titleStyle}
             buttonStyle={styles.button}
             onPress={ () => logout()}
         />
@@ -66,6 +67,9 @@ const styles = StyleSheet.create({
     button: {
         paddingTop: 1,
         height: 50,
-    }
+    },
+    titleStyle: {
+        fontSize: 22,
+      }
 })
   
